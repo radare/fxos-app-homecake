@@ -1,0 +1,19 @@
+{
+  "name": "Homecake",
+  "launch_path": "/index.html",
+  "type": "certified",
+  "role": "homescreen",
+  "orientation": ["portrait"],
+  "permissions": {
+    "webapps-manage":{},
+    "systemXHR":{},
+    "settings": {
+      "access": "readwrite"
+    },
+    "open-remote-window": {},
+    "storage": {}
+  },
+  "icons": {
+    "128": "default_icon.png"
+  }
+}

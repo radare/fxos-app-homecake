@@ -1,10 +1,14 @@
 {
   "name": "Homecake",
   "launch_path": "/index.html",
-  "type": "certified",
   "description": "an alternative homescreen with huge thumbs or small screens",
+  "type": "certified",
   "role": "homescreen",
   "orientation": ["portrait"],
+  "developer": {
+    "name": "pancake",
+    "url": "https://github.com/radare/fxos-launcher-homecake/"
+  },
   "permissions": {
     "webapps-manage":{},
     "systemXHR":{},

@@ -2,6 +2,7 @@
   "name": "Homecake",
   "launch_path": "/index.html",
   "type": "certified",
+  "description": "an alternative homescreen with huge thumbs or small screens",
   "role": "homescreen",
   "orientation": ["portrait"],
   "permissions": {

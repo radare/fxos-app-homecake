@@ -270,6 +270,9 @@ function addFav(name) {
         case 1:
             appEl.innerHTML += '&nbsp;&nbsp;'+icon.name+'</a><br />';
             break;
+        case 2:
+            appEl.innerHTML += '&nbsp;&nbsp;<span class="cute">'+icon.name+'</span></a><br />';
+            break;
         }
         iconMap.set(appEl, icon);
         apps.appendChild(appEl);

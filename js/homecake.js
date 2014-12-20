@@ -4,6 +4,7 @@
  */
 
 var parallax = false;
+var hideOnScroll = false;
 var favs = [
 	'Camera',
 	'Settings',
@@ -15,10 +16,17 @@ var apps = document.getElementById('apps');
 var bottom = document.getElementById('bottom');
 var topbar = document.getElementById('topbar');
 var input = document.getElementById('input');
-var bottom;
 var iconsize = 64;
 var iconMap = new WeakMap();
 var writing = false;
+
+function bottomVisibility(str) {
+	if (bottom) bottom.style.visibility = str;
+}
+
+function topbarVisibility(str) {
+	if (topbar) topbar.style.visibility = str;
+}
 
 function useMode (m) {
 	if (m == -1) mode = mode? 0: 1;
@@ -28,12 +36,12 @@ function useMode (m) {
 	case 0:
 		iconsize = 290;
 		iconsize = window.innerWidth-16;
-		if (bottom) bottom.style.visibility = 'hidden';
+		bottomVisibility ('hidden');
 		toggle.innerHTML = "&nbsp;=&nbsp;";
 		break;
 	case 1:
 		iconsize = 64;
-		if (bottom) bottom.style.visibility = 'visible';
+		bottomVisibility ('visible');
 		toggle.innerHTML = "&nbsp;+&nbsp;";
 		break;
 	}
@@ -172,15 +180,16 @@ function addFav(name) {
 				if (y > odelta) {
 					// scrolldown
 					if (y+16>odelta) {
-						if (topbar) topbar.style.visibility = 'hidden';
-						if (bottom) bottom.style.visibility = 'hidden';
+						topbarVisibility ('hidden');
+						if (hideOnScroll)
+							bottomVisibility ('hidden');
 					}
 				} else {
 					// scrollup
 					if (y+16<odelta) {
-						if (topbar) topbar.style.visibility = 'visible';
+						topbarVisibility ('visible');
 						if (mode == 1) {
-							if (bottom) bottom.style.visibility = 'visible';
+							bottomVisibility ('visible');
 						}
 					}
 				}

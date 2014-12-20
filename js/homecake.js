@@ -184,7 +184,7 @@ function addFav(name) {
                     // scrollup
                     if (y+16<odelta) {
                         if (topbar) topbar.style.visibility = 'visible';
-                        if (mode == 1) {
+                        if (mode == 1 || mode == 2) {
                             if (bottom) bottom.style.visibility = 'visible';
                         }
                     }
@@ -215,6 +215,12 @@ function addFav(name) {
         toggle.onclick = function () {
             if (mode == 0) {
                 if (bottom) bottom.style.visibility = 'hidden';
+            }
+            if (mode == 2) {
+                if (bottom) bottom.style.height = '80px';
+            }
+            if (mode == 1) {
+                if (bottom) bottom.style.height = '50px';
             }
             if (writing) { // this.innerHTML.indexOf("-") != -1) {
                 writing = false;

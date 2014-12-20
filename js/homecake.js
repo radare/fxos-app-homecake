@@ -27,6 +27,7 @@ function useMode (m) {
 	switch (mode) {
 	case 0:
 		iconsize = 290;
+		iconsize = window.innerWidth-16;
 		if (bottom) bottom.style.visibility = 'hidden';
 		toggle.innerHTML = "&nbsp;=&nbsp;";
 		break;
@@ -111,11 +112,13 @@ function addFav(name) {
 
 	function updateFavs() {
 		bottom.innerHTML = "";
+		bottom.innerHTML = "<center>";
 		for (var idx in icons) {
 			var icon = icons[idx];
 			if (favs.indexOf (icon.name) != -1)
 				renderFav (icon);
 		}
+		bottom.innerHTML += "</center>";
 	}
 
 	function updateApps() {

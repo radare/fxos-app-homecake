@@ -45,27 +45,27 @@ background-color:black;
 	overflow-x:scroll;
 	overflow-y:scroll;
 	display:inline-block;
-width:100%;
+	text-align:center;
+	width:100%;
 	z-index:999;
 	height:80px;
 	background-color:rgba(40,40,40,0.7);
-	background-image:linear-gradient (red, blue);
 }
 
 .apps {
 	margin-top:50px;
 	overflow-y:scroll;
+	width: 100%;
 }
 
 input {
 	width:100%;
-border:0px;
-      color: #e0e0e0;
-margin:0px;
-    border-radius: 0px;
-padding-left:16px;
-    background: rgba(24, 24, 24, 0.7);
-
+	border:0px;
+	color: #e0e0e0;
+	margin:0px;
+	border-radius: 0px;
+	padding-left:16px;
+	background: rgba(24, 24, 24, 0.7);
 }
 
 body, html {

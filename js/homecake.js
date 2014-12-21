@@ -66,7 +66,7 @@
                 break;
             case 1:
                 //favs for normal mode
-                favs = ['Camera','Settings','Phone','Music'];
+                if (favs.length > 4) favs = favs.slice(2);
 
                 iconsize = 64;
                 if (bottom) show_bottom();

@@ -50,11 +50,13 @@
 
 
     function useMode(m) {
+
         if (m == -1) {
             if (++mode > 2) mode = 0;
         } else {
             mode = m;
         }
+
 
         switch (mode) {
             case 0:
@@ -63,11 +65,18 @@
                 toggle.innerHTML = "&nbsp;=&nbsp;";
                 break;
             case 1:
+                //favs for normal mode
+                favs = ['Camera','Settings','Phone','Music'];
+
                 iconsize = 64;
                 if (bottom) show_bottom();
                 toggle.innerHTML = "&nbsp;+&nbsp;";
                 break;
             case 2:
+                //favs in dock for miniicons
+                if (favs.length < 5) favs.push('Marketplace');
+                if (favs.length < 6) favs.push('Contacts');
+
                 iconsize = 32;
                 if (bottom) show_bottom();
                 toggle.innerHTML = "&nbsp;-&nbsp;";

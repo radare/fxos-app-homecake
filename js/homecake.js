@@ -20,6 +20,32 @@ var iconsize = 64;
 var iconMap = new WeakMap();
 var writing = false;
 
+/*
+ * auxiliary functions
+ *
+ */
+
+function show_bottom() {
+    bottom.style.visibility = 'visible';
+}
+function hide_bottom() {
+    bottom.style.visibility = 'hidden';
+}
+function hide_topbar() {
+    topbar.style.visibility = 'hidden';
+}
+function show_topbar() {
+    topbar.style.visibility = 'visible';
+}
+
+
+/*
+ * end auxiliary functions
+ *
+ */
+
+
+
 function useMode (m) {
     if (m == -1) {
         if (++mode > 2) mode = 0;
@@ -30,17 +56,17 @@ function useMode (m) {
     switch (mode) {
     case 0:
         iconsize = 290;
-        if (bottom) bottom.style.visibility = 'hidden';
+        if (bottom) hide_bottom();
         toggle.innerHTML = "&nbsp;=&nbsp;";
         break;
     case 1:
         iconsize = 64;
-        if (bottom) bottom.style.visibility = 'visible';
+        if (bottom) show_bottom();
         toggle.innerHTML = "&nbsp;+&nbsp;";
         break;
     case 2:
         iconsize = 32;
-        if (bottom) bottom.style.visibility = 'visible';
+        if (bottom) show_bottom();
         toggle.innerHTML = "&nbsp;-&nbsp;";
         break;
     }
@@ -177,15 +203,15 @@ function addFav(name) {
                 if (y > odelta) {
                     // scrolldown
                     if (y+16>odelta) {
-                        if (topbar) topbar.style.visibility = 'hidden';
-                        if (bottom) bottom.style.visibility = 'hidden';
+                        if (topbar) hide_topbar();
+                        if (bottom) hide_bottom();
                     }
                 } else {
                     // scrollup
                     if (y+16<odelta) {
-                        if (topbar) topbar.style.visibility = 'visible';
-                        if (mode == 1 || mode == 2) {
-                            if (bottom) bottom.style.visibility = 'visible';
+                        if (topbar) show_topbar();
+                        if (mode > 0) {
+                            if (bottom) show_bottom();
                         }
                     }
                 }
@@ -197,11 +223,11 @@ function addFav(name) {
         }
         input.onfocus = function () {
             writing = true;
-            bottom.style['visibility'] = 'hidden';
+            hide_bottom();
             toggle.innerHTML="&nbsp;-&nbsp;";
         }
         input.onblur = function () {
-            bottom.style['visibility'] = 'visible';
+            show_bottom();
 
             //writing = false;
 
@@ -214,7 +240,7 @@ function addFav(name) {
         }
         toggle.onclick = function () {
             if (mode == 0) {
-                if (bottom) bottom.style.visibility = 'hidden';
+                if (bottom) hide_bottom();
             }
             if (mode == 2) {
                 if (bottom) bottom.style.height = '80px';

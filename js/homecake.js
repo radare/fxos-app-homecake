@@ -99,7 +99,7 @@
         if (favs.indexOf(name) != -1)
             return;
         var newfavs = [name];
-        for (i = 0; i < favs.length; i++) {
+        for (i = 0; i < (favs.length -1); i++) {
             newfavs[newfavs.length] = favs[i];
         }
         favs = newfavs;

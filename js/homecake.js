@@ -248,8 +248,7 @@
         }
         input.onblur = function() {
             show_bottom();
-
-            //writing = false;
+            writing = false;
 
             if (mode) {
                 if (mode == 1) toggle.innerHTML = "&nbsp;-&nbsp;";
@@ -339,10 +338,12 @@
             icon = iconMap.get(container);
         }
         if (icon) {
-            document.body.focus();
             writing = false;
+            document.body.focus();
             icon.launch();
             addFav(icon.name);
+            input.value = "";
+            updateApps();
         }
     });
 }());

@@ -4,11 +4,19 @@
      */
 
     var parallax = false;
-    var favs = [
+    var normalfavs = [
         'Camera',
         'Settings',
         'Phone',
         'Music',
+    ];
+    var minifavs = [
+        'Camera',
+        'Settings',
+        'Phone',
+        'Music',
+        'Marketplace',
+        'Contacts'
     ];
     var mode = 1;
     var apps = document.getElementById('apps');
@@ -66,7 +74,7 @@
                 break;
             case 1:
                 //favs for normal mode
-                if (favs.length > 4) favs = favs.slice(2);
+                favs = normalfavs;
 
                 iconsize = 64;
                 if (bottom) show_bottom();
@@ -74,14 +82,14 @@
                 break;
             case 2:
                 //favs in dock for miniicons
-                if (favs.length < 5) favs.push('Marketplace');
-                if (favs.length < 6) favs.push('Contacts');
+                favs = minifavs;
 
                 iconsize = 32;
                 if (bottom) show_bottom();
                 toggle.innerHTML = "&nbsp;-&nbsp;";
                 break;
         }
+
         updateApps();
         updateFavs();
     }
@@ -199,7 +207,7 @@
                 var maxy = 1024 - h; // h-wh;
 
                 var delta = maxy * (y / wh); //(maxy - y);
-                console.log(maxy, wh, y, h, "=", delta);
+                //console.log(maxy, wh, y, h, "=", delta);
                 // parallax
                 if (delta != odelta) {
                     document.getElementById('wallpaper').style['background-position'] = "0px -" + delta + "px";

@@ -86,7 +86,7 @@
 
                 iconsize = 32;
                 if (bottom) show_bottom();
-                toggle.innerHTML = "&nbsp;▒&nbsp;";
+                toggle.innerHTML = "&nbsp;▦&nbsp;";
                 break;
             case 3:
                 if (bottom) hide_bottom();
@@ -266,7 +266,7 @@
             if (mode) {
                 if (mode == 1) toggle.innerHTML = "&nbsp;-&nbsp;";
                 if (mode == 2) toggle.innerHTML = "&nbsp;+&nbsp;";
-                if (mode == 3) toggle.innerHTML = "&nbsp;▒&nbsp;";
+                if (mode == 3) toggle.innerHTML = "&nbsp;▦&nbsp;";
             } else {
                 toggle.innerHTML = "&nbsp;=&nbsp;";
             }

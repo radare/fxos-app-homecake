@@ -28,33 +28,6 @@
     var iconMap = new WeakMap();
     var writing = false;
 
-    /*
-     * auxiliary functions
-     *
-     */
-
-    function show_bottom() {
-        bottom.style.visibility = 'visible';
-    }
-
-    function hide_bottom() {
-        bottom.style.visibility = 'hidden';
-    }
-
-    function hide_topbar() {
-        topbar.style.visibility = 'hidden';
-    }
-
-    function show_topbar() {
-        topbar.style.visibility = 'visible';
-    }
-
-
-    /*
-     * end auxiliary functions
-     *
-     */
-
 
 
     function useMode(m) {
@@ -97,7 +70,7 @@
         }
 
 
-        apps.setAttribute("class", (3 == mode)? "grid_container": "tile");
+        apps.setAttribute("class", (3 == mode)? "grid_container": "apps");
 
         updateApps();
         updateFavs();
@@ -115,31 +88,6 @@
         updateFavs();
     }
 
-    /*
-        const HIDDEN_ROLES = ['system', 'input', 'homescreen'];
-
-        function populate() {
-            let icons = document.querySelector("#icons");
-            let appMgr = navigator.mozApps.mgmt;
-            appMgr.getAll().onsuccess = function(event) {
-                let apps = event.target.result;
-                let fragment = document.createDocumentFragment();
-                for (let app of apps) {
-                    if (HIDDEN_ROLES.indexOf(app.manifest.role) > -1)
-                        continue
-                        if (app.manifest.entry_points) {
-                            for (let k in app.manifest.entry_points) {
-                                fragment.appendChild(createIcon(app, k));
-                            }
-                        } else {
-                            fragment.appendChild(createIcon(app));
-                        }
-                }
-                icons.innerHTML = "";
-                icons.appendChild(fragment);
-            }
-        }
-    */
 
     function updateWallpaper() {
         var req = navigator.mozSettings.createLock().get('wallpaper.image');
@@ -320,42 +268,30 @@
         bottom.appendChild(appEl);
     }
 
-    function my_div(my_class) {
-        var appEl = document.createElement('div');
-        appEl.className = my_class;
-        return appEl;
-    }
+
 
     function renderApp(icon) {
-        var appEl = document.createElement('div');
-        appEl.className = 'tile';
-        //appEl.innerHTML = '<div class="wrapper"><div class="back" style="background-image: url(' + icon.icon + ');">'+
-        //  icon.name+'</div><div class="front"></div>JAJAJAJAJ</div>';
-        appEl.innerHTML = '<a href="#"><img width="' + iconsize + 'px" height="' + iconsize +
+        var o = my_div("tile");
+
+        o.innerHTML = '<a href="#"><img width="' + iconsize + 'px" height="' + iconsize +
             'px" src="' + icon.icon + '">';
         switch (mode) {
             case 0:
-                appEl.innerHTML += '&nbsp;&nbsp;</a><br />';
+                o.innerHTML += '&nbsp;&nbsp;</a><br />';
                 break;
             case 1:
-                appEl.innerHTML += '&nbsp;&nbsp;' + icon.name + '</a><br />';
+                o.innerHTML += '&nbsp;&nbsp;' + icon.name + '</a><br />';
                 break;
             case 2:
-                appEl.innerHTML += '&nbsp;&nbsp;<span class="cute">' + icon.name + '</span></a><br />';
+                o.innerHTML += '&nbsp;&nbsp;<span class="cute">' + icon.name + '</span></a><br />';
                 break;
         }
-        iconMap.set(appEl, icon);
-        apps.appendChild(appEl);
+
+        iconMap.set(o, icon);
+        apps.appendChild(o);
     }
 
-    var n = 0;
     function renderApp4Grid(icon) {
-
-        if (n > icons.length){
-            n = 0;
-        }else{
-            n++;
-        }
 
         var o = my_div("grid");
 
@@ -385,4 +321,42 @@
             updateApps();
         }
     });
+
+
+
+
+    /*
+     * auxiliary functions
+     *
+     */
+
+    function show_bottom() {
+        bottom.style.visibility = 'visible';
+    }
+
+    function hide_bottom() {
+        bottom.style.visibility = 'hidden';
+    }
+
+    function hide_topbar() {
+        topbar.style.visibility = 'hidden';
+    }
+
+    function show_topbar() {
+        topbar.style.visibility = 'visible';
+    }
+
+    function my_div(my_class) {
+        var appEl = document.createElement('div');
+        appEl.className = my_class;
+        return appEl;
+    }
+
+
+    /*
+     * end auxiliary functions
+     *
+     */
+
+
 }());

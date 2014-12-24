@@ -135,3 +135,12 @@ img {
 .cute {
     font-size: 60% !important;
 }
+
+.grid {
+    float: left;
+}
+
+.grid_container {
+    -moz-column-gap: 0em;
+    -moz-columns: 3;
+}

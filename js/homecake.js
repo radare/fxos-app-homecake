@@ -60,7 +60,7 @@
     function useMode(m) {
 
         if (m == -1) {
-            if (++mode > 2) mode = 0;
+            if (++mode > 3) mode = 0;
         } else {
             mode = m;
         }
@@ -78,7 +78,7 @@
 
                 iconsize = 64;
                 if (bottom) show_bottom();
-                toggle.innerHTML = "&nbsp;+&nbsp;";
+                toggle.innerHTML = "&nbsp;-&nbsp;";
                 break;
             case 2:
                 //favs in dock for miniicons
@@ -86,9 +86,18 @@
 
                 iconsize = 32;
                 if (bottom) show_bottom();
-                toggle.innerHTML = "&nbsp;-&nbsp;";
+                toggle.innerHTML = "&nbsp;▒&nbsp;";
+                break;
+            case 3:
+                if (bottom) hide_bottom();
+
+                iconsize = 48;
+                toggle.innerHTML = "&nbsp;+&nbsp;";
                 break;
         }
+
+
+        apps.setAttribute("class", (3 == mode)? "grid_container": "tile");
 
         updateApps();
         updateFavs();
@@ -179,7 +188,11 @@
         for (var idx in icons) {
             var icon = icons[idx];
             if (filter == "" || icon.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
-                renderApp(icon);
+                if ( 3 != mode) {
+                    renderApp(icon);
+                }else{
+                    renderApp4Grid(icon);
+                }
             }
         }
     }
@@ -253,6 +266,7 @@
             if (mode) {
                 if (mode == 1) toggle.innerHTML = "&nbsp;-&nbsp;";
                 if (mode == 2) toggle.innerHTML = "&nbsp;+&nbsp;";
+                if (mode == 3) toggle.innerHTML = "&nbsp;▒&nbsp;";
             } else {
                 toggle.innerHTML = "&nbsp;=&nbsp;";
             }
@@ -306,6 +320,12 @@
         bottom.appendChild(appEl);
     }
 
+    function my_div(my_class) {
+        var appEl = document.createElement('div');
+        appEl.className = my_class;
+        return appEl;
+    }
+
     function renderApp(icon) {
         var appEl = document.createElement('div');
         appEl.className = 'tile';
@@ -326,6 +346,25 @@
         }
         iconMap.set(appEl, icon);
         apps.appendChild(appEl);
+    }
+
+    var n = 0;
+    function renderApp4Grid(icon) {
+
+        if (n > icons.length){
+            n = 0;
+        }else{
+            n++;
+        }
+
+        var o = my_div("grid");
+
+        o.innerHTML = '<a href="#"><img width="' + iconsize + 'px" height="' + iconsize +
+            'px" src="' + icon.icon + '">&nbsp;&nbsp;</a>';
+
+        iconMap.set(o, icon);
+        apps.appendChild(o);
+
     }
 
     var opened = [];

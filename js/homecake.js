@@ -243,7 +243,7 @@
                     // scrollup
                     if (y + 16 < odelta) {
                         if (topbar) show_topbar();
-                        if (mode > 0) {
+                        if (mode > 0 && mode < 3) {
                             if (bottom) show_bottom();
                         }
                     }

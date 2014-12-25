@@ -141,6 +141,7 @@ img {
 }
 
 .grid_container {
+    margin-top:50px;
     -moz-column-gap: 0em;
     -moz-columns: 3;
 }

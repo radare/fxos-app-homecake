@@ -22,7 +22,7 @@
     var apps = document.getElementById('apps');
     var bottom = document.getElementById('bottom');
     var topbar = document.getElementById('topbar');
-    var input = document.getElementById('input');
+    var input  = document.getElementById('input');
     var bottom;
     var iconsize = 64;
     var iconMap = new WeakMap();

@@ -1,11 +1,7 @@
 'use strict';
 
 (function() {
-    /* modes
 
-     */
-
-    var parallax = false;
     var normalfavs = [
         'Camera',
         'Settings',
@@ -21,17 +17,21 @@
         'Contacts'
     ];
     var favs = [];
+    var parallax = false;
     var mode = 1;
     var apps = document.getElementById('apps');
     var bottom = document.getElementById('bottom');
     var topbar = document.getElementById('topbar');
-    var input  = document.getElementById('input');
+    var input = document.getElementById('input');
     var bottom;
     var iconsize = 64;
     var iconMap = new WeakMap();
     var writing = false;
+    var icons = [];
+    var opened = [];
 
 
+    useMode(mode);
 
     function useMode(m) {
 
@@ -40,7 +40,6 @@
         } else {
             mode = m;
         }
-
 
         switch (mode) {
             case 0:
@@ -73,20 +72,21 @@
         }
 
 
-        apps.setAttribute("class", (3 == mode)? "grid_container": "apps");
+        apps.setAttribute("class", (3 == mode) ? "grid_container" : "apps");
 
         updateApps();
         updateFavs();
     }
-    useMode(mode);
+
 
     function addFav(name) {
         if (favs.indexOf(name) != -1)
             return;
-        var newfavs = [name];
-        for (i = 0; i < (favs.length -1); i++) {
-            newfavs[newfavs.length] = favs[i];
-        }
+
+        var newfavs = favs;
+        newfavs.unshift(name);
+        newfavs.pop();
+
         favs = newfavs;
         updateFavs();
     }
@@ -102,8 +102,6 @@
             wallpaper.style.backgroundImage = "url(" + url + ")";
         }
     }
-
-    var icons = [];
 
     function updateAppCache() {
         iconMap = new WeakMap();
@@ -139,11 +137,9 @@
         for (var idx in icons) {
             var icon = icons[idx];
             if (filter == "" || icon.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
-                if ( 3 != mode) {
-                    renderApp(icon);
-                }else{
+                (3 != mode)?
+                    renderApp(icon):
                     renderApp4Grid(icon);
-                }
             }
         }
     }
@@ -271,8 +267,6 @@
         bottom.appendChild(appEl);
     }
 
-
-
     function renderApp(icon) {
         var o = my_div("tile");
 
@@ -306,8 +300,6 @@
 
     }
 
-    var opened = [];
-
     window.addEventListener('click', function(e) {
         var container = e.target
         var icon = iconMap.get(container);
@@ -324,7 +316,6 @@
             updateApps();
         }
     });
-
 
 
 

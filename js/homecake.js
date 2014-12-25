@@ -1,3 +1,5 @@
+'use strict';
+
 (function() {
     /* modes
 
@@ -18,6 +20,7 @@
         'Marketplace',
         'Contacts'
     ];
+    var favs = [];
     var mode = 1;
     var apps = document.getElementById('apps');
     var bottom = document.getElementById('bottom');

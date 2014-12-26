@@ -123,11 +123,10 @@
 
     function updateFavs() {
         bottom.innerHTML = "";
-        for (var idx in icons) {
-            var icon = icons[idx];
-            if (favs.indexOf(icon.name) != -1)
-                renderFav(icon);
-        }
+        icons.map(function(obj){
+            if (favs.indexOf(obj.name) != -1)
+                renderFav(obj);
+        });
     }
 
     function order_by_date(obj) {

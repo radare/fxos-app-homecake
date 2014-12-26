@@ -219,12 +219,10 @@ function addFav(name) {
 		}
 		input.onblur = function () {
 			bottom.style['visibility'] = 'visible';
-
-			//writing = false;
-			if (mode) {
-				toggle.innerHTML="&nbsp;+&nbsp;";
-			} else {
-				toggle.innerHTML="&nbsp;=&nbsp;";
+			switch (mode) {
+			case 0: toggle.innerHTML="&nbsp;=&nbsp;"; break;
+			case 1: toggle.innerHTML="&nbsp;::&nbsp;"; break;
+			case 2: toggle.innerHTML="&nbsp;+&nbsp;"; break;
 			}
 		}
 		toggle.onclick = function () {
@@ -306,6 +304,13 @@ iconHash[icon.icon] = icon;
 		}
 	});
       window.addEventListener('hashchange', function() {
+	      input.value = "";
+	      input.blur ();
+	      document.body.scrollTo(0,0);
+	      topbarVisibility ('visible');
+	      if (mode) {
+		      bottomVisibility ('visible');
+	      }
 	      return false;
       });
 }());

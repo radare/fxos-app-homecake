@@ -286,6 +286,7 @@
 
         iconMap.set(o, icon);
         apps.appendChild(o);
+
     }
 
     function renderApp4Grid(icon) {

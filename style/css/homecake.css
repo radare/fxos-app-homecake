@@ -1,12 +1,11 @@
 * {
-color: #f0f0f0;
-text-decoration:none;
-
-vertical-align:middle;
-font-weight:bold;
-background-size:scale;
+    color: #f0f0f0;
+    text-decoration:none;
+    vertical-align:middle;
+    font-weight:bold;
+    background-size:scale;
     background-repeat: no-repeat;
-font-size:1.2em;
+    font-size:1.2em;
     padding: 0;
     margin: 0;
     -webkit-touch-callout: none;
@@ -15,7 +14,7 @@ font-size:1.2em;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    text-shadow: 0 0 3px #000000;
+    text-shadow: 3px 0 3px #000000;
 }
 .topbar {
     position:absolute;
@@ -29,7 +28,7 @@ font-size:1.2em;
     width:100%;
     height:100%;
     z-index:-999;
-    background-color:black;
+    background-color:whitesmoke;
 }
 
 .toggle {
@@ -147,4 +146,10 @@ img {
     margin-top:50px;
     -moz-column-gap: 0em;
     -moz-columns: 3;
+}
+
+.dockicon {
+    border-width: 3px;
+    -moz-border-image: url("../img/circle.png") 30 30 stretch;
+    border-image: url("../img/circle.png") 30 30 stretch;
 }

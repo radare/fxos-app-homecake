@@ -1,7 +1,7 @@
 (function() {
 
 var parallax = false;
-var hideOnScroll = false;
+var hideOnScroll = true;
 var favs = [
 	'Camera',
 	'Settings',
@@ -16,6 +16,7 @@ var topbar = document.getElementById('topbar');
 var input = document.getElementById('input');
 var iconsize = 64;
 var iconMap = new WeakMap();
+var iconHash = {};
 var writing = false;
 
 function bottomVisibility(str) {
@@ -34,20 +35,24 @@ function useMode (m) {
 	} else {
 		mode = m;
 	}
+	var body= document.getElementById('body');
 
 	switch (mode) {
 	case 0:
 		iconsize = window.innerWidth-16;
 		bottomVisibility ('hidden');
 		toggle.innerHTML = "&nbsp;=&nbsp;";
+		body.style ="";
 		break;
 	case 1:
 		iconsize = 64;
 		bottomVisibility ('visible');
+		body.style ="width:1024px !important";
 		toggle.innerHTML = "&nbsp;::&nbsp;";
 		break;
 	case 2:
 		iconsize = 64;
+		body.style ="";
 		bottomVisibility ('visible');
 		toggle.innerHTML = "&nbsp;+&nbsp;";
 		break;
@@ -146,6 +151,7 @@ function addFav(name) {
 				renderApp (icon);
 			}
 		}
+		apps.innerHTML += "<div style='height:80px'></div>";
 	}
 
 	window.addEventListener("DOMContentLoaded", () => {
@@ -242,32 +248,12 @@ function addFav(name) {
 		updateAppCache();
 	}, true);
 
-/*
-	function renderIcon(icon) {
-		var appEl = document.createElement('div');
-		appEl.className = 'tile';
-		switch (mode) {
-		case 0:
-			appEl.innerHTML = '<div class="back" style="background-image: url('+ icon.icon + ');"></div>';
-			break;
-		case 2:
-			appEl.innerHTML = '<div class="back" style="background-image: url('+ icon.icon + ');"></div>';
-			break;
-		default:
-			appEl.innerHTML = '<div class="wrapper"><div class="back" style="background-image: url('
-			+ icon.icon + ');"></div><div class="front"></div></div>';
-			break;
-		}
-		iconMap.set(appEl, icon);
-		apps.appendChild(appEl);
-	}
-*/
-
 	function renderFav(icon) {
 		var appEl = document.createElement('div');
 		appEl.className = 'bottom-tile';
 		appEl.innerHTML = '<a href="#"><img width="'+iconsize+'px" height="'+iconsize+
 			'px" src="'+icon.icon+'"></a>';
+		iconHash[icon.icon] = icon;
 		iconMap.set(appEl, icon);
 		bottom.appendChild(appEl);
 	}
@@ -277,35 +263,39 @@ function addFav(name) {
 		appEl.className = 'tile';
 		//appEl.innerHTML = '<div class="wrapper"><div class="back" style="background-image: url(' + icon.icon + ');">'+
 		//	icon.name+'</div><div class="front"></div>JAJAJAJAJ</div>';
-		appEl.innerHTML = '<a href="#"><img width="'+iconsize+'px" height="'+iconsize+
-			'px" src="'+icon.icon+'">';
+		var str = '<a href="#"><img width="'+iconsize+'px" height="'+iconsize+
+			'px" alt="(?)" src="'+icon.icon+'" />';
 		switch (mode) {
 		case 0:
-			appEl.innerHTML += '&nbsp;&nbsp;</a><br />';
+			str += '&nbsp;&nbsp;</a><br />';
 			break;
 		case 2:
-			appEl.style="display:inline-block";
-			appEl.innerHTML += '</a>';
+			appEl.style = "display:inline-block";
+			str += '</a>';
 			break;
 		case 1:
-			appEl.innerHTML += '&nbsp;&nbsp;'+icon.name+'</a><br />';
+			str += '&nbsp;&nbsp;'+icon.name+'</a><br />';
 			break;
 		}
+		appEl.innerHTML = str;
 		iconMap.set(appEl, icon);
+iconHash[icon.icon] = icon;
 		apps.appendChild(appEl);
 	}
 
 	var opened = [];
 
 	window.addEventListener('click', function(e) {
+		var icon = undefined;
 		var container = e.target
-		var icon = iconMap.get(container);
-		if (!icon) {
-			container = container.parentNode;
-			icon = iconMap.get(container);
-			if (!icon) {
-				container = container.parentNode;
-				icon = iconMap.get(container);
+		if (container.src) {
+			icon = iconHash[container.src];
+		} else {
+			container = container.childNodes[0];
+			if (container.src) {
+				icon = iconHash[container.src];
+			} else {
+				/* unknown stuff clicked , just ignore */
 			}
 		}
 		if (icon) {
@@ -315,4 +305,7 @@ function addFav(name) {
 			addFav(icon.name);
 		}
 	});
+      window.addEventListener('hashchange', function() {
+	      return false;
+      });
 }());

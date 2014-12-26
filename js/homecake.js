@@ -130,12 +130,20 @@
         }
     }
 
+    function order_by_date(obj) {
+        return obj.sort(function(a, b){
+          return a.installTime < b.installTime;
+        });
+    }
+
     function updateApps() {
         var filter = input.value;
         if (input.value.length < 1) filter = "";
         apps.innerHTML = "";
+        icons = order_by_date(icons);
         for (var idx in icons) {
             var icon = icons[idx];
+            //console.log(icon);
             if (filter == "" || icon.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
                 (3 != mode)?
                     renderApp(icon):

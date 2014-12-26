@@ -1,13 +1,13 @@
 {
   "name": "Homecake",
   "launch_path": "/index.html",
-  "description": "an alternative homescreen with huge thumbs or small screens",
+  "description": "An alternative homescreen",
   "type": "certified",
   "role": "homescreen",
   "orientation": ["portrait"],
   "developer": {
-    "name": "pancake",
-    "url": "https://github.com/radare/fxos-launcher-homecake/"
+    "name": "leandro713",
+    "url": "https://github.com/novia713/fxos-app-homecake/tree/miniicons"
   },
   "permissions": {
     "webapps-manage":{},

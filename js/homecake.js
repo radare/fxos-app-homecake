@@ -1,7 +1,4 @@
 (function() {
-/* modes
-
- */
 
 var parallax = false;
 var hideOnScroll = false;
@@ -12,6 +9,7 @@ var favs = [
 	'Music',
 ];
 var mode = 1;
+const LAST_MODE = 3;
 var apps = document.getElementById('apps');
 var bottom = document.getElementById('bottom');
 var topbar = document.getElementById('topbar');
@@ -29,17 +27,26 @@ function topbarVisibility(str) {
 }
 
 function useMode (m) {
-	if (m == -1) mode = mode? 0: 1;
-	else mode = m;
+	if (m == -1) {
+		mode ++;
+		if (mode==LAST_MODE)
+			mode = 0;
+	} else {
+		mode = m;
+	}
 
 	switch (mode) {
 	case 0:
-		iconsize = 290;
 		iconsize = window.innerWidth-16;
 		bottomVisibility ('hidden');
 		toggle.innerHTML = "&nbsp;=&nbsp;";
 		break;
 	case 1:
+		iconsize = 64;
+		bottomVisibility ('visible');
+		toggle.innerHTML = "&nbsp;::&nbsp;";
+		break;
+	case 2:
 		iconsize = 64;
 		bottomVisibility ('visible');
 		toggle.innerHTML = "&nbsp;+&nbsp;";
@@ -188,7 +195,7 @@ function addFav(name) {
 					// scrollup
 					if (y+16<odelta) {
 						topbarVisibility ('visible');
-						if (mode == 1) {
+						if (mode != 0) {
 							bottomVisibility ('visible');
 						}
 					}
@@ -215,9 +222,9 @@ function addFav(name) {
 			}
 		}
 		toggle.onclick = function () {
-if (mode == 0) {
+			if (mode == 0) {
 				if (bottom) bottom.style.visibility = 'hidden';
-}
+			}
 			if (writing) { // this.innerHTML.indexOf("-") != -1) {
 				writing = false;
 			} else {
@@ -226,28 +233,35 @@ if (mode == 0) {
 			document.body.focus ();
 		}
 
-/*
-		let appMgr = navigator.mozApps.mgmt;
-		appMgr.oninstall = populate;
-		appMgr.onuninstall = populate;
-		populate();
-*/
+		var appMgr = navigator.mozApps.mgmt;
+		appMgr.oninstall = updateAppCache;
+		appMgr.onuninstall = updateAppCache;
 
 		navigator.mozSettings.addObserver('wallpaper.image', updateWallpaper);
 		updateWallpaper();
 		updateAppCache();
 	}, true);
 
-
-
+/*
 	function renderIcon(icon) {
 		var appEl = document.createElement('div');
 		appEl.className = 'tile';
-		appEl.innerHTML = '<div class="wrapper"><div class="back" style="background-image: url('
+		switch (mode) {
+		case 0:
+			appEl.innerHTML = '<div class="back" style="background-image: url('+ icon.icon + ');"></div>';
+			break;
+		case 2:
+			appEl.innerHTML = '<div class="back" style="background-image: url('+ icon.icon + ');"></div>';
+			break;
+		default:
+			appEl.innerHTML = '<div class="wrapper"><div class="back" style="background-image: url('
 			+ icon.icon + ');"></div><div class="front"></div></div>';
+			break;
+		}
 		iconMap.set(appEl, icon);
 		apps.appendChild(appEl);
 	}
+*/
 
 	function renderFav(icon) {
 		var appEl = document.createElement('div');
@@ -269,6 +283,10 @@ if (mode == 0) {
 		case 0:
 			appEl.innerHTML += '&nbsp;&nbsp;</a><br />';
 			break;
+		case 2:
+			appEl.style="display:inline-block";
+			appEl.innerHTML += '</a>';
+			break;
 		case 1:
 			appEl.innerHTML += '&nbsp;&nbsp;'+icon.name+'</a><br />';
 			break;
@@ -283,8 +301,12 @@ if (mode == 0) {
 		var container = e.target
 		var icon = iconMap.get(container);
 		if (!icon) {
-			container = container.parentNode.parentNode;
+			container = container.parentNode;
 			icon = iconMap.get(container);
+			if (!icon) {
+				container = container.parentNode;
+				icon = iconMap.get(container);
+			}
 		}
 		if (icon) {
 			document.body.focus ();

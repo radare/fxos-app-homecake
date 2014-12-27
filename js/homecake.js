@@ -23,7 +23,6 @@
     var bottom = document.getElementById('bottom');
     var topbar = document.getElementById('topbar');
     var input = document.getElementById('input');
-    var bottom;
     var iconsize = 64;
     var iconMap = new WeakMap();
     var writing = false;
@@ -58,6 +57,7 @@
                 favs = normalfavs;
 
                 iconsize = 64;
+                bottom.style.height = "72px";
                 if (bottom) show_bottom();
                 toggle.innerHTML = "&nbsp;-&nbsp;";
                 break;
@@ -66,6 +66,7 @@
                 favs = minifavs;
 
                 iconsize = 32;
+                bottom.style.height = "48px";
                 if (bottom) show_bottom();
                 toggle.innerHTML = "&nbsp;▦&nbsp;";
                 break;
@@ -233,16 +234,10 @@
                 toggle.innerHTML = "&nbsp;=&nbsp;";
             }
         }
+
         toggle.onclick = function() {
-            if (mode == 0) {
-                if (bottom) hide_bottom();
-            }
-            if (mode == 2) {
-                if (bottom) bottom.style.height = '80px';
-            }
-            if (mode == 1) {
-                if (bottom) bottom.style.height = '50px';
-            }
+            hide_bottom();
+
             if (writing) { // this.innerHTML.indexOf("-") != -1) {
                 writing = false;
             } else {
@@ -253,13 +248,13 @@
 
         var appMgr = navigator.mozApps.mgmt;
         appMgr.addEventListener("install", function (event) {
-            console.log(event.application);
+
             setTimeout (function() {
                 updateAppCache();
             }, 2000);
         });
         appMgr.addEventListener("uninstall", function (event) {
-            //console.log(event.application);
+
             updateAppCache();
         });
 
@@ -278,7 +273,6 @@
         apps.appendChild(appEl);
     }
 
-    //TODO: refactor
     function renderFav(icon) {
         iconHash[icon.icon] = icon;
 
@@ -332,7 +326,7 @@
         var container = e.target
         var icon = iconMap.get(container);
         if (!icon) {
-            //container = container.parentNode;
+            container = container.parentNode.parentNode;
             icon = iconMap.get(container);
         }
         if (icon) {

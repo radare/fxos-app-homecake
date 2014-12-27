@@ -166,9 +166,12 @@ function addFav(name) {
 		writing = false;
 		input.onkeyup = function(e) {
 			if (e.keyCode==13) {
-				var text = input.value;
-				if (firstResult)
-					firstResult.launch();
+				if (input.value != "") {
+					if (firstResult)
+						firstResult.launch();
+				} else {
+					input.blur ();
+				}
 			} else {
 				updateApps();
 			}
@@ -315,11 +318,17 @@ updateAppCache();
 		      return;
 	      }
 	      var needs_update = input.value != "";
-	      input.value = "";
-	      input.blur ();
 	      topbarVisibility ('visible');
-	      if (mode != 0) {
-		      bottomVisibility ('visible');
+	      var element = document.querySelector(":focus");
+	      if (element == input) {
+		      input.value = "";
+		      input.blur ();
+		      if (mode != 0) {
+			      bottomVisibility ('visible');
+		      }
+	      } else {
+		      input.focus();
+		      bottomVisibility ('hidden');
 	      }
 	      if (needs_update) {
 		      updateApps();

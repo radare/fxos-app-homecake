@@ -139,9 +139,10 @@ img {
 }
 
 .grid_container {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top:50px;
+    margin: 0 auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top:50px !important;
     -moz-column-gap: 0em;
     -moz-columns: 3;
 }

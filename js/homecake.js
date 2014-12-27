@@ -29,6 +29,12 @@
     var writing = false;
     var icons = [];
     var opened = [];
+    var iconHash = {};
+    var longpress = null;
+    var canDelete = true;
+    var touch_top = 0;
+    const LONG_PRESS_TIMEOUT = 1000;
+
 
 
     useMode(mode);
@@ -109,6 +115,7 @@
         icons = [];
         input.value = "";
         FxosApps.all().then(icns => {
+            icons = [];
             icns.forEach(icon => {
                 var min = Math.min(icns.length, 6);
                 icons[icons.length] = icon;
@@ -244,12 +251,17 @@
             document.body.focus();
         }
 
-        /*
-                let appMgr = navigator.mozApps.mgmt;
-                appMgr.oninstall = populate;
-                appMgr.onuninstall = populate;
-                populate();
-        */
+        var appMgr = navigator.mozApps.mgmt;
+        appMgr.addEventListener("install", function (event) {
+            console.log(event.application);
+            setTimeout (function() {
+                updateAppCache();
+            }, 2000);
+        });
+        appMgr.addEventListener("uninstall", function (event) {
+            console.log(event.application);
+            updateAppCache();
+        });
 
         navigator.mozSettings.addObserver('wallpaper.image', updateWallpaper);
         updateWallpaper();
@@ -266,7 +278,9 @@
         apps.appendChild(appEl);
     }
 
+    //TODO: refactor
     function renderFav(icon) {
+        iconHash[icon.icon] = icon;
         var appEl = document.createElement('div');
         appEl.className = 'bottom-tile';
         appEl.innerHTML = '<a href="#"><img class="dockicon" width="' + iconsize + 'px" height="' + iconsize +
@@ -292,6 +306,7 @@
                 break;
         }
 
+        iconHash[icon.icon] = icon;
         iconMap.set(o, icon);
         apps.appendChild(o);
 
@@ -304,10 +319,13 @@
         o.innerHTML = '<a href="#"><img width="' + iconsize + 'px" height="' + iconsize +
             'px" src="' + icon.icon + '">&nbsp;&nbsp;</a>';
 
+        iconHash[icon.icon] = icon;
         iconMap.set(o, icon);
         apps.appendChild(o);
 
     }
+
+
 
     window.addEventListener('click', function(e) {
         var container = e.target
@@ -325,6 +343,46 @@
             updateApps();
         }
     });
+
+
+    // install/uninstall
+
+    window.addEventListener('touchstart', function(te) {
+        touch_top = document.body.scrollTop; // screen offset
+        if (canDelete) {
+            longpress = setTimeout (function(e) {
+                longpress = null;
+                var icon = getIconFor (te.target);
+                console.log(icon.app);
+                var appMgr = navigator.mozApps.mgmt;
+                appMgr.uninstall(icon.app);
+            }, LONG_PRESS_TIMEOUT);
+        }
+    });
+    window.addEventListener('touchmove', function(e) {
+        var cur_touch_top = document.body.scrollTop; // screen offset
+        if (Math.abs (cur_touch_top-touch_top)) {
+            if (longpress) {
+                clearTimeout (longpress);
+                longpress = null;
+            }
+        }
+    });
+
+    window.addEventListener('touchend', function(e) {
+        if (longpress) clearTimeout (longpress);
+        longpress = null;
+    });
+
+    function getIconFor (target) {
+        if (target.src)
+            return iconHash[target.src];
+        else
+            return (target.childNodes[0].childNodes[0].src)? iconHash[target.childNodes[0].childNodes[0].src] : null;
+    }
+
+
+    // end install/uninstall
 
 
 

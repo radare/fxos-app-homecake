@@ -151,7 +151,8 @@ function addFav(name) {
 				renderApp (icon);
 			}
 		}
-		apps.innerHTML += "<div style='height:80px'></div>";
+		if (!hideOnScroll)
+			apps.innerHTML += "<div style='height:80px'></div>";
 	}
 
 	window.addEventListener("DOMContentLoaded", () => {
@@ -249,8 +250,8 @@ function addFav(name) {
 	function renderFav(icon) {
 		var appEl = document.createElement('div');
 		appEl.className = 'bottom-tile';
-		appEl.innerHTML = '<a href="#"><img width="'+iconsize+'px" height="'+iconsize+
-			'px" src="'+icon.icon+'"></a>';
+		//appEl.innerHTML = '<a href="#"><img width="'+iconsize+'px" height="'+iconsize+ 'px" src="'+icon.icon+'"></a>';
+		appEl.innerHTML = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" src="'+icon.icon+'">';
 		iconHash[icon.icon] = icon;
 		iconMap.set(appEl, icon);
 		bottom.appendChild(appEl);
@@ -261,18 +262,19 @@ function addFav(name) {
 		appEl.className = 'tile';
 		//appEl.innerHTML = '<div class="wrapper"><div class="back" style="background-image: url(' + icon.icon + ');">'+
 		//	icon.name+'</div><div class="front"></div>JAJAJAJAJ</div>';
-		var str = '<a href="#"><img width="'+iconsize+'px" height="'+iconsize+
-			'px" alt="(?)" src="'+icon.icon+'" />';
+		//var str = '<a href="#"><img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="(?)" src="'+icon.icon+'" />';
+		var str = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="(?)" src="'+icon.icon+'" />';
 		switch (mode) {
 		case 0:
-			str += '&nbsp;&nbsp;</a><br />';
+			//str += '&nbsp;&nbsp;</a><br />';
+			str += '&nbsp;&nbsp;<br />';
 			break;
 		case 2:
 			appEl.style = "display:inline-block";
-			str += '</a>';
+		//	str += '</a>';
 			break;
 		case 1:
-			str += '&nbsp;&nbsp;'+icon.name+'</a><br />';
+			str += '&nbsp;&nbsp;'+icon.name+'<br />'; //'</a><br />';
 			break;
 		}
 		appEl.innerHTML = str;
@@ -304,12 +306,17 @@ iconHash[icon.icon] = icon;
 		}
 	});
       window.addEventListener('hashchange', function() {
+	      /* Home button is pressed */
+	      var needs_update = input.value != "";
 	      input.value = "";
 	      input.blur ();
-	      document.body.scrollTo(0,0);
+	      document.body.scrollTo (0,0);
 	      topbarVisibility ('visible');
 	      if (mode) {
 		      bottomVisibility ('visible');
+	      }
+	      if (needs_update) {
+		      updateApps();
 	      }
 	      return false;
       });

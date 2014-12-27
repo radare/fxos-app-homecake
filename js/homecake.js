@@ -1,7 +1,7 @@
 (function() {
 
 var parallax = false;
-var hideOnScroll = true;
+var hideOnScroll = false;
 var favs = [
 	'Camera',
 	'Settings',
@@ -34,7 +34,7 @@ function useMode (m) {
 	} else {
 		mode = m;
 	}
-	var body= document.getElementById('body');
+	var body = document.getElementById('body');
 
 	switch (mode) {
 	case 0:
@@ -111,16 +111,14 @@ function addFav(name) {
 
 	var icons = [];
 
-	function updateAppCache () {
+	var running = false;
+	function updateAppCache (app) {
 		icons = [];
 		input.value = "";
 		FxosApps.all().then(icns => {
 			icns.forEach(icon => {
 				var min = Math.min (icns.length, 6);
 				icons[icons.length] = icon;
-				if (icons.length==min) {
-					updateApps();
-				}
 			})
 		}) .then (foo=> {
 			updateFavs();
@@ -143,17 +141,21 @@ function addFav(name) {
 		if (input.value.length<1) filter = "";
 		var str = "";
 		//apps.innerHTML = "";
+		firstResult = null;
 		for (var idx in icons) {
 			var icon = icons[idx];
 			if (filter=="" || icon.name.toLowerCase().indexOf (filter.toLowerCase()) != -1) {
+				if (!firstResult)
+					firstResult = icon;
 				str += renderApp (icon);
 			}
 		}
 		apps.innerHTML = str;
-		if (!hideOnScroll)
+		if (!hideOnScroll && input.value == "")
 			apps.innerHTML += "<div style='height:80px'></div>";
 	}
 
+	var firstResult = null;
 	window.addEventListener("DOMContentLoaded", () => {
 		apps = document.getElementById('apps');
 		bottom = document.getElementById('bottom');
@@ -162,9 +164,15 @@ function addFav(name) {
 		toggle = document.getElementById('toggle');
 		input.value = "";
 		writing = false;
-		input.onkeyup = function() {
-			var text = input.value;
-			updateApps();
+		input.onkeyup = function(e) {
+			if (e.keyCode==13) {
+				var text = input.value;
+				if (firstResult)
+					firstResult.launch();
+			} else {
+				updateApps();
+			}
+// on enter execute the first result?
 		}
 		var odelta = 0;
 		window.addEventListener ("scroll", function() {
@@ -218,7 +226,8 @@ function addFav(name) {
 			toggle.innerHTML="&nbsp;-&nbsp;";
 		}
 		input.onblur = function () {
-			bottom.style['visibility'] = 'visible';
+			if (mode)
+				bottom.style['visibility'] = 'visible';
 			switch (mode) {
 			case 0: toggle.innerHTML="&nbsp;=&nbsp;"; break;
 			case 1: toggle.innerHTML="&nbsp;::&nbsp;"; break;
@@ -238,8 +247,14 @@ function addFav(name) {
 		}
 
 		var appMgr = navigator.mozApps.mgmt;
-		appMgr.oninstall = updateAppCache;
-		appMgr.onuninstall = updateAppCache;
+appMgr.addEventListener("install", function (event) {
+console.log(event.application);
+//updateAppCache();
+});
+appMgr.addEventListener("uninstall", function (event) {
+console.log(event.application);
+updateAppCache();
+});
 
 		navigator.mozSettings.addObserver('wallpaper.image', updateWallpaper);
 		updateWallpaper();
@@ -252,7 +267,7 @@ function addFav(name) {
 	}
 
 	function renderApp(icon) {
-		var str = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="(?)" src="'+icon.icon+'" />';
+		var str = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="..?.." src="'+icon.icon+'" />';
 		var style='';
 		switch (mode) {
 		case 0:
@@ -288,22 +303,27 @@ function addFav(name) {
 		if (icon) {
 			document.body.focus ();
 			writing = false;
+			running = true;
 			icon.launch();
 			addFav(icon.name);
 		}
 	});
       window.addEventListener('hashchange', function() {
 	      /* Home button is pressed */
+	      if (running) {
+		      running = false;
+		      return;
+	      }
 	      var needs_update = input.value != "";
 	      input.value = "";
 	      input.blur ();
-	      document.body.scrollTo (0,0);
 	      topbarVisibility ('visible');
-	      if (mode) {
+	      if (mode != 0) {
 		      bottomVisibility ('visible');
 	      }
 	      if (needs_update) {
 		      updateApps();
+		      document.body.scrollTo (0,0);
 	      }
 	      return false;
       });

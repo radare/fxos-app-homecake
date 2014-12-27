@@ -16,6 +16,10 @@
 	 * Creates icons for an app based on hidden roles and entry points.
 	 */
 	function makeIcons(app) {
+		if (!app || !app.manifest) {
+			//alert ("ERROR "+app)
+			return;
+		}
 		if (HIDDEN_ROLES.indexOf(app.manifest.role) !== -1) {
 			return;
 		}
@@ -54,14 +58,20 @@
 
 	Icon.prototype = {
 
-		defaultIcon: '/bower_components/firefoxos-mozapps/default_icon.png',
+		defaultIcon: '/default_icon.png',
 
 		get name() {
 			var userLang = document.documentElement.lang;
-			var locales = this.descriptor.locales;
-			var localized = locales && locales[userLang] && locales[userLang].name;
+			try {
+				var locales = this.descriptor.locales;
+				var localized = locales && locales[userLang] && locales[userLang].name;
 
-			return localized || this.descriptor.name;
+				return localized || this.descriptor.name;
+			} catch (e) {
+				if (!this.descriptor || !this.descriptor.name)
+					return "";
+				return this.descriptor.name;
+			}
 		},
 
 		get icon() {
@@ -79,6 +89,8 @@
 		 * Returns the icon closest to a given size.
 		 */
 		getIcon: function(size) {
+			if (!this.descriptor)
+				return null;
 			var choices = this.descriptor.icons;
 			if (!choices) {
 				return this.defaultIcon;

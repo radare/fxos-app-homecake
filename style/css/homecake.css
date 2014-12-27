@@ -4,7 +4,6 @@
     vertical-align:middle;
     font-weight:bold;
     background-size:scale;
-    background-repeat: no-repeat;
     font-size:1.2em;
     padding: 0;
     margin: 0;
@@ -41,8 +40,6 @@
 .bottom {
     position:absolute;
     bottom:0px;
-    overflow-x:scroll;
-    overflow-y:scroll;
     display:inline-block;
     text-align:center;
     width:100%;
@@ -142,14 +139,13 @@ img {
 }
 
 .grid_container {
-    margin-left: .6%;
+    margin-left: auto;
+    margin-right: auto;
     margin-top:50px;
     -moz-column-gap: 0em;
     -moz-columns: 3;
 }
 
 .dockicon {
-    border-width: 3px;
-    -moz-border-image: url("../img/circle.png") 30 30 stretch;
-    border-image: url("../img/circle.png") 30 30 stretch;
+
 }

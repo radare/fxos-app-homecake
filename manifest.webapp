@@ -1,7 +1,7 @@
 {
-  "name": "Homecake",
+  "name": "Lonecake",
   "launch_path": "/index.html",
-  "description": "An alternative homescreen",
+  "description": "An alternative homescreen. Forked from Homecake.",
   "type": "certified",
   "role": "homescreen",
   "orientation": ["portrait"],

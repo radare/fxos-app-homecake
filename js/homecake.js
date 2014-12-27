@@ -99,7 +99,8 @@
             var url = URL.createObjectURL(blob);
             var wallpaper = document.getElementById('wallpaper')
             wallpaper.style['background-color'] = '#101010';
-            wallpaper.style.backgroundImage = "url(" + url + ")";
+            wallpaper.style.backgroundImage = "url(" + url + "), url(" + url + ")";
+
         }
     }
 
@@ -268,7 +269,7 @@
     function renderFav(icon) {
         var appEl = document.createElement('div');
         appEl.className = 'bottom-tile';
-        appEl.innerHTML = '<a href="#"><img width="' + iconsize + 'px" height="' + iconsize +
+        appEl.innerHTML = '<a href="#"><img class="dockicon" width="' + iconsize + 'px" height="' + iconsize +
             'px" src="' + icon.icon + '"></a>';
         iconMap.set(appEl, icon);
         bottom.appendChild(appEl);

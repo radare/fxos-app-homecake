@@ -11,6 +11,7 @@ var favs = [
 ];
 var mode = 1;
 const LAST_MODE = 3;
+const LONG_PRESS_TIMEOUT = 1000;
 var apps = document.getElementById('apps');
 var bottom = document.getElementById('bottom');
 var topbar = document.getElementById('topbar');
@@ -152,6 +153,7 @@ function addFav(name) {
 		icons = [];
 		input.value = "";
 		FxosApps.all().then(icns => {
+			icons = [];
 			icns.forEach(icon => {
 				var min = Math.min (icns.length, 6);
 				icons[icons.length] = icon;
@@ -296,7 +298,9 @@ function addFav(name) {
 		var appMgr = navigator.mozApps.mgmt;
 		appMgr.addEventListener("install", function (event) {
 			console.log(event.application);
-			//updateAppCache();
+			setTimeout (function() {
+				updateAppCache();
+			}, 2000);
 		});
 		appMgr.addEventListener("uninstall", function (event) {
 			console.log(event.application);
@@ -345,12 +349,18 @@ function addFav(name) {
 				//		var icon = iconHash [te.target.src];
 				var appMgr = navigator.mozApps.mgmt;
 				appMgr.uninstall(icon.app);
-			}, 800);
+			}, LONG_PRESS_TIMEOUT);
 		}
+	});
+	window.addEventListener('touchmove', function(e) {
+		if (longpress)
+			clearTimeout (longpress);
+		longpress = null;
 	});
 
 	window.addEventListener('touchend', function(e) {
-		clearTimeout (longpress);
+		if (longpress)
+			clearTimeout (longpress);
 		longpress = null;
 	});
 

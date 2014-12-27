@@ -41,8 +41,7 @@
 .bottom {
 	position:absolute;
 	bottom:0px;
-	overflow-x:scroll;
-	overflow-y:scroll;
+	overflow:hidden;
 	display:inline-block;
 	text-align:center;
 	width:100%;

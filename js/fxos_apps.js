@@ -152,6 +152,7 @@
 		all: function() {
 			return new Promise((resolve, reject) => {
 				navigator.mozApps.mgmt.getAll().onsuccess = function(event) {
+					icons = [];
 					event.target.result.forEach(makeIcons);
 					resolve(icons);
 				};

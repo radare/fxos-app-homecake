@@ -15,7 +15,6 @@ var bottom = document.getElementById('bottom');
 var topbar = document.getElementById('topbar');
 var input = document.getElementById('input');
 var iconsize = 64;
-var iconMap = new WeakMap();
 var iconHash = {};
 var writing = false;
 
@@ -113,7 +112,6 @@ function addFav(name) {
 	var icons = [];
 
 	function updateAppCache () {
-		iconMap = new WeakMap();
 		icons = [];
 		input.value = "";
 		FxosApps.all().then(icns => {
@@ -131,26 +129,27 @@ function addFav(name) {
 	}
 
 	function updateFavs() {
-		bottom.innerHTML = "";
-		bottom.innerHTML = "<center>";
+		var str = "";
 		for (var idx in icons) {
 			var icon = icons[idx];
 			if (favs.indexOf (icon.name) != -1)
-				renderFav (icon);
+				str += renderFav (icon);
 		}
-		bottom.innerHTML += "</center>";
+		bottom.innerHTML = "<center>"+str+"</center>";
 	}
 
 	function updateApps() {
 		var filter = input.value;
 		if (input.value.length<1) filter = "";
-		apps.innerHTML = "";
+		var str = "";
+		//apps.innerHTML = "";
 		for (var idx in icons) {
 			var icon = icons[idx];
 			if (filter=="" || icon.name.toLowerCase().indexOf (filter.toLowerCase()) != -1) {
-				renderApp (icon);
+				str += renderApp (icon);
 			}
 		}
+		apps.innerHTML = str;
 		if (!hideOnScroll)
 			apps.innerHTML += "<div style='height:80px'></div>";
 	}
@@ -248,39 +247,27 @@ function addFav(name) {
 	}, true);
 
 	function renderFav(icon) {
-		var appEl = document.createElement('div');
-		appEl.className = 'bottom-tile';
-		//appEl.innerHTML = '<a href="#"><img width="'+iconsize+'px" height="'+iconsize+ 'px" src="'+icon.icon+'"></a>';
-		appEl.innerHTML = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" src="'+icon.icon+'">';
 		iconHash[icon.icon] = icon;
-		iconMap.set(appEl, icon);
-		bottom.appendChild(appEl);
+		return '<div class="bottom-tile"><img width="'+iconsize+'px" height="'+iconsize+ 'px" src="'+icon.icon+'" /></div>';
 	}
 
 	function renderApp(icon) {
-		var appEl = document.createElement('div');
-		appEl.className = 'tile';
-		//appEl.innerHTML = '<div class="wrapper"><div class="back" style="background-image: url(' + icon.icon + ');">'+
-		//	icon.name+'</div><div class="front"></div>JAJAJAJAJ</div>';
-		//var str = '<a href="#"><img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="(?)" src="'+icon.icon+'" />';
 		var str = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="(?)" src="'+icon.icon+'" />';
+		var style='';
 		switch (mode) {
 		case 0:
 			//str += '&nbsp;&nbsp;</a><br />';
 			str += '&nbsp;&nbsp;<br />';
 			break;
 		case 2:
-			appEl.style = "display:inline-block";
-		//	str += '</a>';
+			style = "style='display:inline-block'";
 			break;
 		case 1:
 			str += '&nbsp;&nbsp;'+icon.name+'<br />'; //'</a><br />';
 			break;
 		}
-		appEl.innerHTML = str;
-		iconMap.set(appEl, icon);
-iconHash[icon.icon] = icon;
-		apps.appendChild(appEl);
+		iconHash[icon.icon] = icon;
+		return "<div class=tile "+style+">"+str+"</div>";
 	}
 
 	var opened = [];
@@ -292,7 +279,7 @@ iconHash[icon.icon] = icon;
 			icon = iconHash[container.src];
 		} else {
 			container = container.childNodes[0];
-			if (container.src) {
+			if (container && container.src) {
 				icon = iconHash[container.src];
 			} else {
 				/* unknown stuff clicked , just ignore */

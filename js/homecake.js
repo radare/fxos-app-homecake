@@ -412,8 +412,8 @@ function addFav(name) {
 	      }
 	      if (needs_update) {
 		      updateApps();
-		      document.body.scrollTo (0,0);
 	      }
+	      document.body.scrollTo (0,0);
 	      return false;
       });
 }());

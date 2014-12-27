@@ -1,7 +1,7 @@
 (function() {
 
 var parallax = false;
-var hideOnScroll = false;
+var hideOnScroll = true;
 var favs = [
 	'Camera',
 	'Settings',
@@ -17,6 +17,17 @@ var input = document.getElementById('input');
 var iconsize = 64;
 var iconHash = {};
 var writing = false;
+
+function saveSettings() {
+	localStorage.setItem ("favs", favs.join (','));
+	localStorage.setItem ("mode", ""+mode);
+}
+function loadSettings() {
+	favs = localStorage.getItem ("favs").split (',');
+	mode = localStorage.getItem ("mode") |0;
+	if (mode>LAST_MODE || mode<0)
+		mode = 1;
+}
 
 function bottomVisibility(str) {
 	if (bottom) bottom.style.visibility = str;
@@ -58,7 +69,9 @@ function useMode (m) {
 	}
 	updateApps();
 	updateFavs();
+	saveSettings();
 }
+loadSettings ();
 useMode (mode);
 
 function addFav(name) {
@@ -171,8 +184,11 @@ function addFav(name) {
 		input.onkeyup = function(e) {
 			if (e.keyCode==13) {
 				if (input.value != "") {
-					if (firstResult)
+					if (firstResult) {
 						firstResult.launch();
+						saveSettings();
+						addFav(icon.name);
+					}
 				} else {
 					input.blur ();
 				}
@@ -254,14 +270,14 @@ function addFav(name) {
 		}
 
 		var appMgr = navigator.mozApps.mgmt;
-appMgr.addEventListener("install", function (event) {
-console.log(event.application);
-//updateAppCache();
-});
-appMgr.addEventListener("uninstall", function (event) {
-console.log(event.application);
-updateAppCache();
-});
+		appMgr.addEventListener("install", function (event) {
+			console.log(event.application);
+			//updateAppCache();
+		});
+		appMgr.addEventListener("uninstall", function (event) {
+			console.log(event.application);
+			updateAppCache();
+		});
 
 		navigator.mozSettings.addObserver('wallpaper.image', updateWallpaper);
 		updateWallpaper();
@@ -312,6 +328,7 @@ updateAppCache();
 			writing = false;
 			running = true;
 			icon.launch();
+			saveSettings();
 			addFav(icon.name);
 		}
 	});

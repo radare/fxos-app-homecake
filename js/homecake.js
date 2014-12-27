@@ -138,8 +138,8 @@
     }
 
     function order_by_date(obj) {
-        return obj.sort(function(a, b){
-          return a.installTime < b.installTime;
+        return obj.sort( function(a, b){
+          return b.installTime - a.installTime;
         });
     }
 
@@ -147,8 +147,8 @@
         var filter = input.value;
         if (input.value.length < 1) filter = "";
         apps.innerHTML = "";
-        icons = order_by_date(icons);
-        for (var idx in icons) {
+
+        for (var idx in order_by_date(icons)) {
             var icon = icons[idx];
             //console.log(icon);
             if (filter == "" || icon.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
@@ -259,7 +259,7 @@
             }, 2000);
         });
         appMgr.addEventListener("uninstall", function (event) {
-            console.log(event.application);
+            //console.log(event.application);
             updateAppCache();
         });
 
@@ -281,12 +281,12 @@
     //TODO: refactor
     function renderFav(icon) {
         iconHash[icon.icon] = icon;
-        var appEl = document.createElement('div');
-        appEl.className = 'bottom-tile';
-        appEl.innerHTML = '<a href="#"><img class="dockicon" width="' + iconsize + 'px" height="' + iconsize +
+
+        var o = my_div("bottom-tile");
+        o.innerHTML = '<a href="#"><img class="dockicon" width="' + iconsize + 'px" height="' + iconsize +
             'px" src="' + icon.icon + '"></a>';
-        iconMap.set(appEl, icon);
-        bottom.appendChild(appEl);
+        iconMap.set(o, icon);
+        bottom.appendChild(o);
     }
 
     function renderApp(icon) {
@@ -294,6 +294,7 @@
 
         o.innerHTML = '<a href="#"><img width="' + iconsize + 'px" height="' + iconsize +
             'px" src="' + icon.icon + '">';
+
         switch (mode) {
             case 0:
                 o.innerHTML += '&nbsp;&nbsp;</a><br />';
@@ -317,7 +318,7 @@
         var o = my_div("grid");
 
         o.innerHTML = '<a href="#"><img width="' + iconsize + 'px" height="' + iconsize +
-            'px" src="' + icon.icon + '">&nbsp;&nbsp;</a>';
+            'px" src="' + icon.icon + '"></a>';
 
         iconHash[icon.icon] = icon;
         iconMap.set(o, icon);
@@ -331,7 +332,7 @@
         var container = e.target
         var icon = iconMap.get(container);
         if (!icon) {
-            container = container.parentNode.parentNode;
+            //container = container.parentNode;
             icon = iconMap.get(container);
         }
         if (icon) {
@@ -353,9 +354,17 @@
             longpress = setTimeout (function(e) {
                 longpress = null;
                 var icon = getIconFor (te.target);
-                console.log(icon.app);
+                //console.log(icon.app);
                 var appMgr = navigator.mozApps.mgmt;
-                appMgr.uninstall(icon.app);
+
+                if (icon.app.removable)
+                    appMgr.uninstall(icon.app);
+                else{
+                    alert(icon.app.manifest.name + " is not removable");
+                    return;
+                }
+
+                updateAppCache();
             }, LONG_PRESS_TIMEOUT);
         }
     });
@@ -383,6 +392,13 @@
 
 
     // end install/uninstall
+
+    window.addEventListener('hashchange', function() {
+          /* Home button is pressed */
+          updateAppCache();
+          document.body.scrollTo (0,0);
+          return false;
+      });
 
 
 

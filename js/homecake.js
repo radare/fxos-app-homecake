@@ -2,6 +2,7 @@
 
 var parallax = false;
 var hideOnScroll = true;
+var canDelete = true;
 var favs = [
 	'Camera',
 	'Settings',
@@ -23,10 +24,20 @@ function saveSettings() {
 	localStorage.setItem ("mode", ""+mode);
 }
 function loadSettings() {
-	favs = localStorage.getItem ("favs").split (',');
-	mode = localStorage.getItem ("mode") |0;
-	if (mode>LAST_MODE || mode<0)
+	try {
+		favs = localStorage.getItem ("favs").split (',');
+		mode = localStorage.getItem ("mode") |0;
+		if (mode>LAST_MODE || mode<0)
+			mode = 1;
+	} catch (e) {
 		mode = 1;
+		favs = [
+			'Camera',
+			'Settings',
+			'Phone',
+			'Music',
+		];
+	}
 }
 
 function bottomVisibility(str) {
@@ -133,7 +144,11 @@ function addFav(name) {
 	var icons = [];
 
 	var running = false;
+	var updating = false;
 	function updateAppCache (app) {
+		if (updating)
+			return;
+		updating = true;
 		icons = [];
 		input.value = "";
 		FxosApps.all().then(icns => {
@@ -141,9 +156,10 @@ function addFav(name) {
 				var min = Math.min (icns.length, 6);
 				icons[icons.length] = icon;
 			})
-		}) .then (foo=> {
+		}).then (foo => {
 			updateFavs();
 			updateApps();
+			updating = false;
 		});
 	}
 
@@ -161,7 +177,7 @@ function addFav(name) {
 		var filter = input.value;
 		if (input.value.length<1) filter = "";
 		var str = "";
-		//apps.innerHTML = "";
+		str = "";
 		firstResult = null;
 		for (var idx in icons) {
 			var icon = icons[idx];
@@ -231,14 +247,14 @@ function addFav(name) {
 				var y = document.body.scrollTop; // screen offset
 				if (y > odelta) {
 					// scrolldown
-					if (y+16>odelta) {
+					if (y+8>odelta) {
 						topbarVisibility ('hidden');
 						if (hideOnScroll)
 							bottomVisibility ('hidden');
 					}
 				} else {
 					// scrollup
-					if (y+16<odelta) {
+					if (y+8<odelta) {
 						topbarVisibility ('visible');
 						if (mode != 0) {
 							bottomVisibility ('visible');
@@ -298,6 +314,8 @@ function addFav(name) {
 	}
 
 	function renderApp(icon) {
+		if (!icon.name)
+			return "";
 		var str = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="..?.." src="'+icon.icon+'" />';
 		var style='';
 		switch (mode) {
@@ -318,19 +336,36 @@ function addFav(name) {
 
 	var opened = [];
 
-	window.addEventListener('click', function(e) {
-		var icon = undefined;
-		var container = e.target
-		if (container.src) {
-			icon = iconHash[container.src];
-		} else {
-			container = container.childNodes[0];
-			if (container && container.src) {
-				icon = iconHash[container.src];
-			} else {
-				/* unknown stuff clicked , just ignore */
-			}
+	var longpress = null;
+	window.addEventListener('touchstart', function(te) {
+		if (canDelete) {
+			longpress = setTimeout (function(e) {
+				longpress = null;
+				var icon = getIconFor (te.target);
+				//		var icon = iconHash [te.target.src];
+				var appMgr = navigator.mozApps.mgmt;
+				appMgr.uninstall(icon.app);
+			}, 800);
 		}
+	});
+
+	window.addEventListener('touchend', function(e) {
+		clearTimeout (longpress);
+		longpress = null;
+	});
+
+	function getIconFor (target) {
+		var container = target
+		if (container.src)
+			return iconHash[container.src];
+		container = container.childNodes[0];
+		if (container && container.src) {
+			return iconHash[container.src];
+		}
+		return null;
+	}
+	window.addEventListener('click', function(e) {
+		var icon = getIconFor (e.target);
 		if (icon) {
 			document.body.focus ();
 			writing = false;

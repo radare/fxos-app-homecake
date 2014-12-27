@@ -341,7 +341,9 @@ function addFav(name) {
 	var opened = [];
 
 	var longpress = null;
+	var touch_top = 0;
 	window.addEventListener('touchstart', function(te) {
+		touch_top = document.body.scrollTop; // screen offset
 		if (canDelete) {
 			longpress = setTimeout (function(e) {
 				longpress = null;
@@ -353,9 +355,13 @@ function addFav(name) {
 		}
 	});
 	window.addEventListener('touchmove', function(e) {
-		if (longpress)
-			clearTimeout (longpress);
-		longpress = null;
+		var cur_touch_top = document.body.scrollTop; // screen offset
+		if (Math.abs (cur_touch_top-touch_top)) {
+			if (longpress) {
+				clearTimeout (longpress);
+				longpress = null;
+			}
+		}
 	});
 
 	window.addEventListener('touchend', function(e) {

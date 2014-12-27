@@ -30,7 +30,15 @@ function loadSettings() {
 }
 
 function bottomVisibility(str) {
-	if (bottom) bottom.style.visibility = str;
+	if (bottom) {
+		if (str == "visible") {
+			bottom.style.transition = "opacity 0.5s ease-in-out, visibility 1s linear";
+			bottom.style.opacity = 1;
+		} else {
+			bottom.style.opacity = 0;
+		}
+		bottom.style.visibility = str;
+	}
 }
 
 function topbarVisibility(str) {

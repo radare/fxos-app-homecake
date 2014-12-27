@@ -250,12 +250,18 @@
         appMgr.addEventListener("install", function (event) {
 
             setTimeout (function() {
+
                 updateAppCache();
-            }, 2000);
+                useMode(mode);
+            }, 2500);
         });
         appMgr.addEventListener("uninstall", function (event) {
 
-            updateAppCache();
+            setTimeout (function() {
+
+                updateAppCache();
+                useMode(mode);
+            }, 2500);
         });
 
         navigator.mozSettings.addObserver('wallpaper.image', updateWallpaper);
@@ -358,7 +364,6 @@
                     return;
                 }
 
-                updateAppCache();
             }, LONG_PRESS_TIMEOUT);
         }
     });
@@ -389,8 +394,11 @@
 
     window.addEventListener('hashchange', function() {
           /* Home button is pressed */
-          updateAppCache();
-          document.body.scrollTo (0,0);
+          setTimeout (function() {
+
+                updateAppCache();
+                useMode(mode);
+            }, 2500);
           return false;
       });
 

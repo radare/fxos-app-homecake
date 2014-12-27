@@ -350,7 +350,8 @@ function addFav(name) {
 				var icon = getIconFor (te.target);
 				//		var icon = iconHash [te.target.src];
 				var appMgr = navigator.mozApps.mgmt;
-				appMgr.uninstall(icon.app);
+				if (icon.app.removable)
+					appMgr.uninstall(icon.app);
 			}, LONG_PRESS_TIMEOUT);
 		}
 	});

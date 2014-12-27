@@ -82,7 +82,7 @@ function useMode (m) {
 		break;
 	case 2:
 		iconsize = 64;
-		body.style ="";
+		body.style = "";
 		bottomVisibility ('visible');
 		toggle.innerHTML = "&nbsp;+&nbsp;";
 		break;
@@ -325,7 +325,7 @@ function addFav(name) {
 		switch (mode) {
 		case 0:
 			//str += '&nbsp;&nbsp;</a><br />';
-			str += '&nbsp;&nbsp;<br />';
+			str += '<br />';
 			break;
 		case 2:
 			style = "style='display:inline-block'";

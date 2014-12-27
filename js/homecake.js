@@ -150,7 +150,11 @@ function addFav(name) {
 				str += renderApp (icon);
 			}
 		}
-		apps.innerHTML = str;
+		if (mode == 2) {
+			apps.innerHTML = "<center>"+str+"</center>";
+		} else {
+			apps.innerHTML = str;
+		}
 		if (!hideOnScroll && input.value == "")
 			apps.innerHTML += "<div style='height:80px'></div>";
 	}

@@ -285,10 +285,10 @@
                 o.innerHTML += '&nbsp;&nbsp;</a><br />';
                 break;
             case 1:
-                o.innerHTML += '&nbsp;&nbsp;' + icon.name + '</a><br />';
+                o.innerHTML += '&nbsp;&nbsp;<span class="appname">' + icon.name + '</span></a><br />';
                 break;
             case 2:
-                o.innerHTML += '&nbsp;&nbsp;<span class="cute">' + icon.name + '</span></a><br />';
+                o.innerHTML += '&nbsp;&nbsp;<span class="cute appname-cute">' + icon.name + '</span></a><br />';
                 break;
         }
 

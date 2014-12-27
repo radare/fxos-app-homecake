@@ -146,6 +146,25 @@ img {
     -moz-columns: 3;
 }
 
-.dockicon {
+.appname {
+    border-radius: 14px;
+    padding: 4px;
+    display: inline-block;
+    -webkit-box-shadow: 0 0 5px #333;
+    box-shadow: 0 0 5px #333;
+}
 
+.appname-cute {
+    background: #ddd;
+    color: #333;
+    border-radius: 4px;
+    padding: 4px;
+    display: inline-block;
+    -webkit-box-shadow: 0 0 5px #333;
+    box-shadow: 0 0 5px #333;
+}
+
+@-moz-keyframes glow {
+    from { box-shadow: 0 0 5px #333; }
+    to   { box-shadow: 0 0 10px #046; }
 }

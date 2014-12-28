@@ -70,7 +70,7 @@
                 break;
             case 3:
                 if (bottom) hide_bottom();
-
+                disableScrolling();
                 iconsize = 48;
                 toggle.innerHTML = "&nbsp;+&nbsp;";
                 break;
@@ -431,6 +431,12 @@
         var appEl = document.createElement('div');
         appEl.className = my_class;
         return appEl;
+    }
+
+    function disableScrolling(){
+        var x=window.scrollX;
+        var y=window.scrollY;
+        window.onscroll=function(){window.scrollTo(x, y);};
     }
 
 

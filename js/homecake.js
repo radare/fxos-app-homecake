@@ -177,8 +177,7 @@
                 var wh = document.body.height; // document size
                 var y = document.body.scrollTop; // screen offset
                 var h = document.body.clientHeight; // screen size
-                wh = 8500;
-                var miny = 0;
+                //wh = 8500;
                 var maxy = 1024 - h; // h-wh;
 
                 var delta = maxy * (y / wh); //(maxy - y);
@@ -215,12 +214,12 @@
         }, true);
         document.body.onfocus = function() {
             writing = false;
-        }
+        };
         input.onfocus = function() {
             writing = true;
             hide_bottom();
             toggle.innerHTML = "&nbsp;-&nbsp;";
-        }
+        };
         input.onblur = function() {
             show_bottom();
             writing = false;
@@ -232,7 +231,7 @@
             } else {
                 toggle.innerHTML = "&nbsp;=&nbsp;";
             }
-        }
+        };
 
         toggle.onclick = function() {
             hide_bottom();
@@ -243,7 +242,7 @@
                 useMode(-1);
             }
             document.body.focus();
-        }
+        };
 
         try {
             //not supported prior 2.0

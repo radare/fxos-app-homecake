@@ -1,6 +1,5 @@
-'use strict';
-
 (function() {
+    'use strict';
 
     var normalfavs = [
         'Camera',
@@ -27,7 +26,6 @@
     var iconMap = new WeakMap();
     var writing = false;
     var icons = [];
-    var opened = [];
     var iconHash = {};
     var longpress = null;
     var canDelete = true;
@@ -57,7 +55,7 @@
                 favs = normalfavs;
 
                 iconsize = 64;
-                bottom.style.height = "72px";
+                bottom.style.height = "76px";
                 if (bottom) show_bottom();
                 toggle.innerHTML = "&nbsp;-&nbsp;";
                 break;
@@ -101,14 +99,15 @@
 
     function updateWallpaper() {
         var req = navigator.mozSettings.createLock().get('wallpaper.image');
+        //console.log("→ " + req);
         req.onsuccess = function onsuccess() {
             var blob = req.result['wallpaper.image'];
             var url = URL.createObjectURL(blob);
-            var wallpaper = document.getElementById('wallpaper')
+            var wallpaper = document.getElementById('wallpaper');
             wallpaper.style['background-color'] = '#101010';
             wallpaper.style.backgroundImage = "url(" + url + "), url(" + url + ")";
 
-        }
+        };
     }
 
     function updateAppCache() {
@@ -152,7 +151,7 @@
         for (var idx in order_by_date(icons)) {
             var icon = icons[idx];
             //console.log(icon);
-            if (filter == "" || icon.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
+            if (filter === "" || icon.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
                 (3 != mode)?
                     renderApp(icon):
                     renderApp4Grid(icon);
@@ -171,7 +170,7 @@
         input.onkeyup = function() {
             var text = input.value;
             updateApps();
-        }
+        };
         var odelta = 0;
         window.addEventListener("scroll", function() {
             if (parallax) {
@@ -246,17 +245,17 @@
             document.body.focus();
         }
 
-        var appMgr = navigator.mozApps.mgmt;
+        var appMgr = window.navigator.mozApps.mgmt;
+        //not supported prior 2.0
         appMgr.addEventListener("install", function (event) {
-
             setTimeout (function() {
 
                 updateAppCache();
                 useMode(mode);
             }, 2500);
         });
+        //not supported prior 2.0
         appMgr.addEventListener("uninstall", function (event) {
-
             setTimeout (function() {
 
                 updateAppCache();
@@ -329,7 +328,7 @@
 
 
     window.addEventListener('click', function(e) {
-        var container = e.target
+        var container = e.target;
         var icon = iconMap.get(container);
         if (!icon) {
             container = container.parentNode.parentNode;
@@ -394,11 +393,9 @@
 
     window.addEventListener('hashchange', function() {
           /* Home button is pressed */
-          setTimeout (function() {
+          updateAppCache();
+          useMode(mode);
 
-                updateAppCache();
-                useMode(mode);
-            }, 2500);
           return false;
       });
 

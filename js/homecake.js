@@ -245,23 +245,29 @@
             document.body.focus();
         }
 
-        var appMgr = window.navigator.mozApps.mgmt;
-        //not supported prior 2.0
-        appMgr.addEventListener("install", function (event) {
-            setTimeout (function() {
+        try {
+            //not supported prior 2.0
+            var appMgr = window.navigator.mozApps.mgmt;
 
-                updateAppCache();
-                useMode(mode);
-            }, 2500);
-        });
-        //not supported prior 2.0
-        appMgr.addEventListener("uninstall", function (event) {
-            setTimeout (function() {
+            appMgr.addEventListener("install", function (event) {
+                setTimeout (function() {
 
-                updateAppCache();
-                useMode(mode);
-            }, 2500);
-        });
+                    updateAppCache();
+                    useMode(mode);
+                }, 2500);
+            });
+
+            appMgr.addEventListener("uninstall", function (event) {
+                setTimeout (function() {
+
+                    updateAppCache();
+                    useMode(mode);
+                }, 2500);
+            });
+            }
+        catch(err) {
+            alert("install/uninstall apps won't work  in < 2.0 FirefoxOS versions in this app");
+        }
 
         navigator.mozSettings.addObserver('wallpaper.image', updateWallpaper);
         updateWallpaper();

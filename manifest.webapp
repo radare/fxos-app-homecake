@@ -4,7 +4,7 @@
   "description": "An alternative homescreen. Forked from Homecake.",
   "type": "certified",
   "role": "homescreen",
-  "orientation": ["portrait"],
+  "orientation": ["portrait-primary"],
   "developer": {
     "name": "leandro713",
     "url": "https://github.com/novia713/fxos-app-homecake/tree/miniicons"

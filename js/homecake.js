@@ -46,7 +46,7 @@
 
         switch (mode) {
             case 0:
-                iconsize = 290;
+                iconsize = 284;
                 if (bottom) hide_bottom();
                 toggle.innerHTML = "&nbsp;=&nbsp;";
                 break;
@@ -111,7 +111,7 @@
     }
 
     function updateAppCache() {
-        iconMap = new WeakMap();
+        //iconMap = new WeakMap();
         icons = [];
         input.value = "";
         FxosApps.all().then(icns => {
@@ -285,6 +285,8 @@
 
     function renderFav(icon) {
         iconHash[icon.icon] = icon;
+        //var icon48 = icon.icon.replace(/\d{3}/,"128");
+        //console.log(icon48);
 
         var o = my_div("bottom-tile");
         o.innerHTML = '<a href="#"><img class="dockicon" width="' + iconsize + 'px" height="' + iconsize +

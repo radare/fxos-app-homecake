@@ -150,11 +150,28 @@
 
         for (var idx in order_by_date(icons)) {
             var icon = icons[idx];
-            //console.log(icon);
+            console.log(icon);
             if (filter === "" || icon.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
-                (3 != mode)?
-                    renderApp(icon):
+                if  (3 != mode) {
+                    if (1 == mode) {
+
+                        //console.log(icon.app.manifest.developer.name);
+                        if (icon.app.manifest.developer.name == "The Gaia Team" ||
+                            icon.app.manifest.developer.name == "Mozilla")
+                                renderApp(icon);
+                    }
+                    if (2 == mode) {
+                        if (icon.app.manifest.developer.name != "The Gaia Team" &&
+                            icon.app.manifest.developer.name != "Mozilla")
+                                renderApp(icon);
+                    }
+                    if (0 == mode) {
+                        renderApp(icon);
+                    }
+
+                }else{
                     renderApp4Grid(icon);
+                }
             }
         }
     }

@@ -70,7 +70,6 @@
                 break;
             case 3:
                 if (bottom) hide_bottom();
-                disableScrolling();
                 iconsize = 48;
                 toggle.innerHTML = "&nbsp;+&nbsp;";
                 break;
@@ -150,7 +149,7 @@
 
         for (var idx in order_by_date(icons)) {
             var icon = icons[idx];
-            console.log(icon);
+            //console.log(icon);
             if (filter === "" || icon.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
                 if  (3 != mode) {
                     if (1 == mode) {
@@ -292,14 +291,6 @@
 
 
 
-    function renderIcon(icon) {
-        var appEl = document.createElement('div');
-        appEl.className = 'tile';
-        appEl.innerHTML = '<div class="wrapper"><div class="back" style="background-image: url(' + icon.icon + ');"></div><div class="front"></div></div>';
-        iconMap.set(appEl, icon);
-        apps.appendChild(appEl);
-    }
-
     function renderFav(icon) {
         iconHash[icon.icon] = icon;
         //var icon48 = icon.icon.replace(/\d{3}/,"128");
@@ -377,14 +368,19 @@
             longpress = setTimeout (function(e) {
                 longpress = null;
                 var icon = getIconFor (te.target);
-                //console.log(icon.app);
-                var appMgr = navigator.mozApps.mgmt;
+                if (icon) {
+                    try {
+                        var appMgr = navigator.mozApps.mgmt;
 
-                if (icon.app.removable)
-                    appMgr.uninstall(icon.app);
-                else{
-                    alert(icon.app.manifest.name + " is not removable");
-                    return;
+                        if (icon.app.removable)
+                            appMgr.uninstall(icon.app);
+                        else{
+                            alert(icon.app.manifest.name + " is not removable");
+                            return;
+                        }
+                    } catch (err) {
+                        alert("install/uninstall apps won't work  in < 2.0 FirefoxOS versions in this app");
+                    }
                 }
 
             }, LONG_PRESS_TIMEOUT);
@@ -450,12 +446,6 @@
         var appEl = document.createElement('div');
         appEl.className = my_class;
         return appEl;
-    }
-
-    function disableScrolling(){
-        var x=window.scrollX;
-        var y=window.scrollY;
-        window.onscroll=function(){window.scrollTo(x, y);};
     }
 
 

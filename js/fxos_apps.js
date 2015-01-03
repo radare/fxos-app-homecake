@@ -82,7 +82,7 @@
         /**
          * Returns the icon closest to a given size.
          */
-        getIconSizes: function(size) {
+        getIconSizes: function() {
             var choices = this.descriptor.icons;
             if (!choices) {
                 return this.defaultIcon;

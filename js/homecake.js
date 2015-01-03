@@ -130,15 +130,15 @@
 
     function updateFavs() {
         bottom.innerHTML = "";
-        icons.map(function(obj){
+        icons.map(function(obj) {
             if (favs.indexOf(obj.name) != -1)
                 renderFav(obj);
         });
     }
 
     function order_by_date(obj) {
-        return obj.sort( function(a, b){
-          return b.installTime - a.installTime;
+        return obj.sort(function(a, b) {
+            return b.installTime - a.installTime;
         });
     }
 
@@ -151,24 +151,24 @@
             var icon = icons[idx];
             //console.log(icon);
             if (filter === "" || icon.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
-                if  (3 != mode) {
+                if (3 != mode) {
                     if (1 == mode) {
 
                         //console.log(icon.app.manifest.developer.name);
                         if (icon.app.manifest.developer.name == "The Gaia Team" ||
                             icon.app.manifest.developer.name == "Mozilla")
-                                renderApp(icon);
+                            renderApp(icon);
                     }
                     if (2 == mode) {
                         if (icon.app.manifest.developer.name != "The Gaia Team" &&
                             icon.app.manifest.developer.name != "Mozilla")
-                                renderApp(icon);
+                            renderApp(icon);
                     }
-                    if (0 == mode) {
+                    if (0 === mode) {
                         renderApp(icon);
                     }
 
-                }else{
+                } else {
                     renderApp4Grid(icon);
                 }
             }
@@ -264,23 +264,22 @@
             //not supported prior 2.0
             var appMgr = window.navigator.mozApps.mgmt;
 
-            appMgr.addEventListener("install", function (event) {
-                setTimeout (function() {
+            appMgr.addEventListener("install", function(event) {
+                setTimeout(function() {
 
                     updateAppCache();
                     useMode(mode);
                 }, 2500);
             });
 
-            appMgr.addEventListener("uninstall", function (event) {
-                setTimeout (function() {
+            appMgr.addEventListener("uninstall", function(event) {
+                setTimeout(function() {
 
                     updateAppCache();
                     useMode(mode);
                 }, 2500);
             });
-            }
-        catch(err) {
+        } catch (err) {
             alert("install/uninstall apps won't work  in < 2.0 FirefoxOS versions in this app");
         }
 
@@ -406,16 +405,16 @@
     window.addEventListener('touchstart', function(te) {
         touch_top = document.body.scrollTop; // screen offset
         if (canDelete) {
-            longpress = setTimeout (function(e) {
+            longpress = setTimeout(function(e) {
                 longpress = null;
-                var icon = getIconFor (te.target);
+                var icon = getIconFor(te.target);
                 if (icon) {
                     try {
                         var appMgr = navigator.mozApps.mgmt;
 
                         if (icon.app.removable)
                             appMgr.uninstall(icon.app);
-                        else{
+                        else {
                             alert(icon.app.manifest.name + " is not removable");
                             return;
                         }
@@ -429,37 +428,38 @@
     });
     window.addEventListener('touchmove', function(e) {
         var cur_touch_top = document.body.scrollTop; // screen offset
-        if (Math.abs (cur_touch_top-touch_top)) {
+        if (Math.abs(cur_touch_top - touch_top)) {
             if (longpress) {
-                clearTimeout (longpress);
+                clearTimeout(longpress);
                 longpress = null;
             }
         }
     });
 
     window.addEventListener('touchend', function(e) {
-        if (longpress) clearTimeout (longpress);
+        if (longpress) clearTimeout(longpress);
         longpress = null;
     });
 
-    function getIconFor (target) {
+    function getIconFor(target) {
         //console.log(target);
         if (target.src)
             return iconHash[target.src];
         else
-            return (target.childNodes[0].childNodes[0].src)? iconHash[target.childNodes[0].childNodes[0].src] : null;
+            return (target.childNodes[0].childNodes[0].src) ? iconHash[target.childNodes[0].childNodes[0].src] : null;
     }
 
 
     // end install/uninstall
 
     window.addEventListener('hashchange', function() {
-          /* Home button is pressed */
-          updateAppCache();
-          useMode(mode);
+        /* Home button is pressed */
+        updateAppCache();
+        useMode(mode);
 
-          return false;DOM_a.appendChild(DOM_img);
-      });
+        return false;
+        DOM_a.appendChild(DOM_img);
+    });
 
 
 

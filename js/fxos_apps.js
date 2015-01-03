@@ -4,7 +4,7 @@
     const HIDDEN_ROLES = ['system', 'input', 'homescreen', 'theme'];
 
     // Default icon size.
-    const DEFAULT_ICON_SIZE = Math.floor(window.innerWidth / 4);
+    var default_icon_size = Math.floor(window.innerWidth / 4);
 
     // List of all application icons.
     var icons = [];
@@ -65,7 +65,11 @@
         },
 
         get icon() {
-            return this.getIcon(DEFAULT_ICON_SIZE);
+            return this.getIcon(default_icon_size);
+        },
+
+        get big_icon() {
+            return this.getIcon(284);
         },
 
         get descriptor() {
@@ -78,7 +82,7 @@
         /**
          * Returns the icon closest to a given size.
          */
-        getSmallIcon: function(size) {
+        getIconSizes: function(size) {
             var choices = this.descriptor.icons;
             if (!choices) {
                 return this.defaultIcon;
@@ -91,27 +95,7 @@
                 return a - b;
             });
 
-            var accurateSize = list[0]; // The biggest icon available
-            for (var i = 0; i < length; i++) {
-                var iconSize = list[i];
-
-                if (iconSize < size) {
-                    break;
-                }
-
-                accurateSize = iconSize;
-            }
-
-            var icon = choices[accurateSize];
-
-            // Handle relative URLs
-            if (!hasScheme(icon)) {
-                var a = document.createElement('a');
-                a.href = this.app.origin;
-                icon = a.protocol + '//' + a.host + icon;
-            }
-
-            return icon;
+            return list;
         },
 
         getIcon: function(size) {
@@ -128,7 +112,7 @@
             });
 
             var accurateSize = list[0]; // The biggest icon available
-            for (var i = 0; i < length; i++) {
+            for (var i = 0; i < list.length; i++) {
                 var iconSize = list[i];
 
                 if (iconSize < size) {

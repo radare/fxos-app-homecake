@@ -292,10 +292,7 @@
 
 
     function renderFav(icon) {
-        //@TODO: redenr the smaller icon available
         iconHash[icon.icon] = icon;
-        //var icon48 = icon.icon.replace(/\d{3}/,"128");
-        //console.log(icon48);
 
         var o = my_div("bottom-tile");
         var DOM_a = document.createElement("a");
@@ -325,7 +322,7 @@
         switch (mode) {
             case 0:
                 //o.innerHTML += '&nbsp;&nbsp;</a><br />';
-                DOM_img.src = icon.icon;
+                DOM_img.src = icon.big_icon;
                 DOM_img.width = iconsize;
                 DOM_a.appendChild(DOM_img);
                 break;

@@ -54,7 +54,7 @@
 
     Icon.prototype = {
 
-        defaultIcon: '/bower_components/firefoxos-mozapps/default_icon.png',
+        defaultIcon: '/img/default_icon.png',
 
         get name() {
             var userLang = document.documentElement.lang;

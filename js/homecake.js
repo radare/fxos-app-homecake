@@ -63,7 +63,7 @@
                 //favs in dock for miniicons
                 favs = minifavs;
 
-                iconsize = 32;
+                iconsize = 38;
                 bottom.style.height = "48px";
                 if (bottom) show_bottom();
                 toggle.innerHTML = "&nbsp;▦&nbsp;";
@@ -138,7 +138,7 @@
 
     function order_by_date(obj) {
         return obj.sort(function(a, b) {
-            return b.installTime - a.installTime;
+            return a.installTime - b.installTime;
         });
     }
 
@@ -297,7 +297,12 @@
         var DOM_a = document.createElement("a");
         DOM_a.href = "javascript:void(null);";
         var DOM_img = document.createElement("img");
-        DOM_img.src = icon.icon;
+
+        if ( 2 != mode )
+            DOM_img.src = icon.icon;
+        else
+            DOM_img.src = icon.small_icon;
+
         DOM_img.width = iconsize;
         DOM_img.className = "dockicon";
 

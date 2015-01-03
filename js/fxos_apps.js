@@ -72,6 +72,11 @@
             return this.getIcon(284);
         },
 
+        get small_icon() {
+            var s = this.getIconSizes();
+            return this.getIcon(s[0]);
+        },
+
         get descriptor() {
             if (this.entryPoint) {
                 return this.app.manifest.entry_points[this.entryPoint];

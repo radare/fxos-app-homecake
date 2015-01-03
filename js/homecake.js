@@ -292,37 +292,74 @@
 
 
     function renderFav(icon) {
+        //@TODO: redenr the smaller icon available
         iconHash[icon.icon] = icon;
         //var icon48 = icon.icon.replace(/\d{3}/,"128");
         //console.log(icon48);
 
         var o = my_div("bottom-tile");
-        o.innerHTML = '<a href="#"><img class="dockicon" width="' + iconsize + 'px" height="' + iconsize +
-            'px" src="' + icon.icon + '"></a>';
+        var DOM_a = document.createElement("a");
+        DOM_a.href = "javascript:void(null);";
+        var DOM_img = document.createElement("img");
+        DOM_img.src = icon.icon;
+        DOM_img.width = iconsize;
+        DOM_img.className = "dockicon";
+
+        DOM_a.appendChild(DOM_img);
+        o.appendChild(DOM_a);
         iconMap.set(o, icon);
         bottom.appendChild(o);
     }
 
     function renderApp(icon) {
+
         var o = my_div("tile");
 
-        o.innerHTML = '<a href="#"><img width="' + iconsize + 'px" height="' + iconsize +
-            'px" src="' + icon.icon + '">';
+        var DOM_a = document.createElement("a");
+        DOM_a.href = "javascript:void(null);";
+
+        var DOM_img = document.createElement("img");
+        var DOM_span = document.createElement("span");
+
 
         switch (mode) {
             case 0:
-                o.innerHTML += '&nbsp;&nbsp;</a><br />';
+                //o.innerHTML += '&nbsp;&nbsp;</a><br />';
+                DOM_img.src = icon.icon;
+                DOM_img.width = iconsize;
+                DOM_a.appendChild(DOM_img);
                 break;
             case 1:
-                o.innerHTML += '&nbsp;&nbsp;<span class="appname">' + icon.name + '</span></a><br />';
+                //'&nbsp;&nbsp;<span class="appname">' + icon.name + '</span></a><br />';
+                DOM_img.src = icon.icon;
+                DOM_img.width = iconsize;
+
+                DOM_span.appendChild(document.createTextNode(icon.name));
+                DOM_span.className = "appname";
+
+                DOM_a.appendChild(DOM_img);
+                DOM_a.appendChild(DOM_span);
+
                 break;
             case 2:
-                o.innerHTML += '&nbsp;&nbsp;<span class="cute appname-cute">' + icon.name + '</span></a><br />';
+                //'&nbsp;&nbsp;<span class="cute appname-cute">' + icon.name + '</span></a><br />';
+                //var src = icon.app.manifest.icons[60];
+                DOM_img.src = icon.icon;
+                DOM_img.width = iconsize;
+
+                DOM_span.appendChild(document.createTextNode(icon.name));
+                DOM_span.className = "appname-cute";
+
+                DOM_a.appendChild(DOM_img);
+                DOM_a.appendChild(DOM_span);
+
+
                 break;
         }
 
         iconHash[icon.icon] = icon;
         iconMap.set(o, icon);
+        o.appendChild(DOM_a);
         apps.appendChild(o);
 
     }
@@ -330,9 +367,16 @@
     function renderApp4Grid(icon) {
 
         var o = my_div("grid");
+        var DOM_a = document.createElement("a");
+        DOM_a.href = "javascript:void(null);";
 
-        o.innerHTML = '<a href="#"><img width="' + iconsize + 'px" height="' + iconsize +
-            'px" src="' + icon.icon + '"></a>';
+        var DOM_img = document.createElement("img");
+        DOM_img.src = icon.icon;
+        DOM_img.width = iconsize;
+        DOM_a.appendChild(DOM_img);
+        o.appendChild(DOM_a);
+
+        //'<a href="#"><img width="' + iconsize + 'px" height="' + iconsize + 'px" src="' + icon.icon + '"></a>';
 
         iconHash[icon.icon] = icon;
         iconMap.set(o, icon);
@@ -402,6 +446,7 @@
     });
 
     function getIconFor (target) {
+        //console.log(target);
         if (target.src)
             return iconHash[target.src];
         else
@@ -416,7 +461,7 @@
           updateAppCache();
           useMode(mode);
 
-          return false;
+          return false;DOM_a.appendChild(DOM_img);
       });
 
 

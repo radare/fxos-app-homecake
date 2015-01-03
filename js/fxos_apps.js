@@ -78,6 +78,42 @@
         /**
          * Returns the icon closest to a given size.
          */
+        getSmallIcon: function(size) {
+            var choices = this.descriptor.icons;
+            if (!choices) {
+                return this.defaultIcon;
+            }
+
+            // Create a list with the sizes and order it by descending size.
+            var list = Object.keys(choices).map(function(size) {
+                return size;
+            }).sort(function(a, b) {
+                return a - b;
+            });
+
+            var accurateSize = list[0]; // The biggest icon available
+            for (var i = 0; i < length; i++) {
+                var iconSize = list[i];
+
+                if (iconSize < size) {
+                    break;
+                }
+
+                accurateSize = iconSize;
+            }
+
+            var icon = choices[accurateSize];
+
+            // Handle relative URLs
+            if (!hasScheme(icon)) {
+                var a = document.createElement('a');
+                a.href = this.app.origin;
+                icon = a.protocol + '//' + a.host + icon;
+            }
+
+            return icon;
+        },
+
         getIcon: function(size) {
             var choices = this.descriptor.icons;
             if (!choices) {

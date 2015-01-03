@@ -1,8 +1,21 @@
+@font-face{
+    font-family: 'Fira Sans';
+    src: url('eot/FiraSans-Bold.eot');
+    src: local('Fira Sans Bold'),
+         url('eot/FiraSans-Bold.eot') format('embedded-opentype'),
+         url('woff/FiraSans-Bold.woff') format('woff'),
+         url('ttf/FiraSans-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
 * {
+    font-family: sans-serif;
+    font-weight: bold;
+    overflow-x: hidden;
     color: #f0f0f0;
     text-decoration:none;
     vertical-align:middle;
-    font-weight:bold;
     background-size:scale;
     font-size:1.2em;
     padding: 0;
@@ -130,10 +143,6 @@ img {
   background-position: center center;
 }
 
-.cute {
-    font-size: 60% !important;
-}
-
 .grid {
     float: left;
 }
@@ -153,6 +162,7 @@ img {
     display: inline-block;
     -webkit-box-shadow: 0 0 5px #333;
     box-shadow: 0 0 5px #333;
+    font-size: 70% !important;
 }
 
 .appname-cute {
@@ -163,6 +173,7 @@ img {
     display: inline-block;
     -webkit-box-shadow: 0 0 5px #333;
     box-shadow: 0 0 5px #333;
+    font-size: 40% !important;
 }
 
 @-moz-keyframes glow {

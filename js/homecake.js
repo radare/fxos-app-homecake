@@ -283,7 +283,8 @@ function addFav(name) {
 			switch (mode) {
 			case 0: toggle.innerHTML="&nbsp;=&nbsp;"; break;
 			case 1: toggle.innerHTML="&nbsp;::&nbsp;"; break;
-			case 2: toggle.innerHTML="&nbsp;+&nbsp;"; break;
+			case 2: toggle.innerHTML="&nbsp;=&nbsp;"; break;
+//			case 2: toggle.innerHTML="&nbsp;+&nbsp;"; break;
 			}
 		}
 		toggle.onclick = function () {

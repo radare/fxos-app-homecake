@@ -11,7 +11,7 @@ var favs = [
 ];
 var mode = 1;
 const LAST_MODE = 3;
-const LONG_PRESS_TIMEOUT = 500;
+const LONG_PRESS_TIMEOUT = 600;
 var apps = document.getElementById('apps');
 var bottom = document.getElementById('bottom');
 var topbar = document.getElementById('topbar');
@@ -175,7 +175,7 @@ function addFav(name) {
 			if (favs.indexOf (icon.name) != -1)
 				str += renderFav (icon);
 		}
-		bottom.innerHTML = "<center>"+str+"</center>";
+		bottom.innerHTML = str;
 	}
 
 	function updateApps() {
@@ -192,13 +192,13 @@ function addFav(name) {
 				str += renderApp (icon);
 			}
 		}
+		if (!hideOnScroll && input.value == "")
+			str += "<div style='height:80px'></div>";
 		if (mode == 2) {
 			apps.innerHTML = "<center>"+str+"</center>";
 		} else {
 			apps.innerHTML = str;
 		}
-		if (!hideOnScroll && input.value == "")
-			apps.innerHTML += "<div style='height:80px'></div>";
 	}
 
 	var firstResult = null;

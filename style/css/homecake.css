@@ -47,7 +47,7 @@
 	width:100%;
 	z-index:10;
 	height:80px;
-	background-color:rgba(40,40,40,0.7);
+	background-color:rgba(30,30,30,0.8);
 }
 
 .apps {
@@ -63,7 +63,7 @@ input {
 	margin:0px;
 	border-radius: 0px;
 	padding-left:16px;
-	background: rgba(24, 24, 24, 0.7);
+	background: rgba(24, 24, 24, 0.8);
 }
 
 body, html {
@@ -83,7 +83,7 @@ img {
 .bottom-tile {
 	display:inline-block;
 	background:none;
-	background-color:rgba (40,40,40,0.7);
+	background-color:rgba (40,40,40,1);
 }
 
 .tile {

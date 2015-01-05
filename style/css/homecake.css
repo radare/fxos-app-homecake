@@ -103,7 +103,6 @@ img {
 
 .tile {
   transform-style: preserve-3d;
-  transition: all 0.25s linear;
 }
 
 .tile .front, .tile .back {

@@ -11,7 +11,7 @@ var favs = [
 ];
 var mode = 1;
 const LAST_MODE = 3;
-const LONG_PRESS_TIMEOUT = 1000;
+const LONG_PRESS_TIMEOUT = 500;
 var apps = document.getElementById('apps');
 var bottom = document.getElementById('bottom');
 var topbar = document.getElementById('topbar');
@@ -66,6 +66,8 @@ function useMode (m) {
 		mode = m;
 	}
 	var body = document.getElementById('body');
+if (mode == 0)
+mode = 1;
 
 	switch (mode) {
 	case 0:
@@ -84,7 +86,8 @@ function useMode (m) {
 		iconsize = 64;
 		body.style = "";
 		bottomVisibility ('visible');
-		toggle.innerHTML = "&nbsp;+&nbsp;";
+		//toggle.innerHTML = "&nbsp;+&nbsp;";
+		toggle.innerHTML = "&nbsp;=&nbsp;";
 		break;
 	}
 	updateApps();

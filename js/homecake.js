@@ -298,18 +298,20 @@
         DOM_a.href = "javascript:void(null);";
         var DOM_img = document.createElement("img");
 
-        if ( 2 != mode )
+        ( mode === 0 )?
+            DOM_img.src = icon.big_icon :
             DOM_img.src = icon.icon;
-        else
-            DOM_img.src = icon.small_icon;
 
         DOM_img.width = iconsize;
+        DOM_img.height = iconsize;
         DOM_img.className = "dockicon";
+
+        //console.log(DOM_img);
 
         DOM_a.appendChild(DOM_img);
         o.appendChild(DOM_a);
-        iconMap.set(o, icon);
         bottom.appendChild(o);
+        iconMap.set(o, icon);
     }
 
     function renderApp(icon) {

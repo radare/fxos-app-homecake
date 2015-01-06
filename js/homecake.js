@@ -164,9 +164,8 @@
                             icon.app.manifest.developer.name != "Mozilla")
                             renderApp(icon);
                     }
-                    if (0 === mode) {
-                        renderApp(icon);
-                    }
+
+                    0 === mode && renderApp(icon);
 
                 } else {
                     renderApp4Grid(icon);

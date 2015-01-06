@@ -75,11 +75,11 @@
                 break;
         }
 
-
         apps.setAttribute("class", (3 == mode) ? "grid_container" : "apps");
 
-        updateApps();
         updateFavs();
+        updateApps();
+
     }
 
 
@@ -131,8 +131,7 @@
     function updateFavs() {
         bottom.innerHTML = "";
         icons.map(function(obj) {
-            if (favs.indexOf(obj.name) != -1)
-                renderFav(obj);
+            favs.indexOf(obj.name) != -1 && renderFav(obj);
         });
     }
 
@@ -227,14 +226,17 @@
                 odelta = y;
             }
         }, true);
+
         document.body.onfocus = function() {
             writing = false;
         };
+
         input.onfocus = function() {
             writing = true;
             hide_bottom();
             toggle.innerHTML = "&nbsp;-&nbsp;";
         };
+
         input.onblur = function() {
             show_bottom();
             writing = false;
@@ -268,6 +270,7 @@
 
                     updateAppCache();
                     useMode(mode);
+
                 }, 2500);
             });
 
@@ -276,6 +279,7 @@
 
                     updateAppCache();
                     useMode(mode);
+
                 }, 2500);
             });
         } catch (err) {
@@ -464,7 +468,6 @@
         useMode(mode);
 
         return false;
-        DOM_a.appendChild(DOM_img);
     });
 
 

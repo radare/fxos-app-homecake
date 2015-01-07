@@ -330,13 +330,13 @@
 
         switch (mode) {
             case 0:
-                //o.innerHTML += '&nbsp;&nbsp;</a><br />';
+
                 DOM_img.src = icon.big_icon;
                 DOM_img.width = iconsize;
                 DOM_a.appendChild(DOM_img);
                 break;
             case 1:
-                //'&nbsp;&nbsp;<span class="appname">' + icon.name + '</span></a><br />';
+
                 DOM_img.src = icon.icon;
                 DOM_img.width = iconsize;
 
@@ -348,13 +348,18 @@
 
                 break;
             case 2:
-                //'&nbsp;&nbsp;<span class="cute appname-cute">' + icon.name + '</span></a><br />';
-                //var src = icon.app.manifest.icons[60];
+
                 DOM_img.src = icon.icon;
                 DOM_img.width = iconsize;
+                DOM_img.crossOrigin="Anonymous";
+
 
                 DOM_span.appendChild(document.createTextNode(icon.name));
                 DOM_span.className = "appname-cute";
+                var col = getAverageRGB(DOM_img); console.log(col);
+                if (col.r != 0 && col.g != 0 && col.g != 0)
+                    DOM_span.style.backgroundColor = "rgb(" + col.r + ", " + col.g + ", " + col.b + ") ";
+
 
                 DOM_a.appendChild(DOM_img);
                 DOM_a.appendChild(DOM_span);
@@ -497,6 +502,53 @@
         var appEl = document.createElement('div');
         appEl.className = my_class;
         return appEl;
+    }
+
+    function getAverageRGB(imgEl) {
+
+        var blockSize = 5, // only visit every 5 pixels
+            defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
+            canvas = document.createElement('canvas'),
+            context = canvas.getContext && canvas.getContext('2d'),
+            data, width, height,
+            i = -4,
+            length,
+            rgb = {r:0,g:0,b:0},
+            count = 0;
+
+        if (!context) {
+            return defaultRGB;
+        }
+
+        height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
+        width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+
+        context.drawImage(imgEl, 0, 0);
+
+        try {
+            data = context.getImageData(0, 0, width, height);
+        } catch(e) {
+            /* security error, img on diff domain */
+            //alert('x');
+            return defaultRGB;
+        }
+
+        length = data.data.length;
+
+        while ( (i += blockSize * 4) < length ) {
+            ++count;
+            rgb.r += data.data[i];
+            rgb.g += data.data[i+1];
+            rgb.b += data.data[i+2];
+        }
+
+        // ~~ used to floor values
+        rgb.r = ~~(rgb.r/count);
+        rgb.g = ~~(rgb.g/count);
+        rgb.b = ~~(rgb.b/count);
+
+        return rgb;
+
     }
 
 

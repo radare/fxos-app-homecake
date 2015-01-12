@@ -2,6 +2,8 @@
 
 Lonecake is a custom homescreen for FirefoxOS. It's based on the work of Pancake's Homescreen
 
+support for >= 1.4 versions (_currently at work for 1.3 version support_)
+
 ## Installation
 
 1. Git clone this repo, 

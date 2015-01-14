@@ -30,7 +30,7 @@
     var longpress = null;
     var canDelete = true;
     var touch_top = 0;
-    const LONG_PRESS_TIMEOUT = 1000;
+    const LONG_PRESS_TIMEOUT = 500;
 
 
 
@@ -187,7 +187,7 @@
         };
         var odelta = 0;
         window.addEventListener("scroll", function() {
-            if (parallax) {
+
                 var wh = document.body.height; // document size
                 var y = document.body.scrollTop; // screen offset
                 var h = document.body.clientHeight; // screen size
@@ -200,7 +200,7 @@
                 if (delta != odelta) {
                     document.getElementById('wallpaper').style['background-position'] = "0px -" + delta + "px";
                 }
-            }
+
             var focused = document.activeElement;
             if (!focused || focused == document.body)
                 focused = null;
@@ -351,15 +351,10 @@
 
                 DOM_img.src = icon.icon;
                 DOM_img.width = iconsize;
-                DOM_img.crossOrigin="Anonymous";
 
 
                 DOM_span.appendChild(document.createTextNode(icon.name));
                 DOM_span.className = "appname-cute";
-                var col = getAverageRGB(DOM_img); console.log(col);
-                if (col.r != 0 && col.g != 0 && col.g != 0)
-                    DOM_span.style.backgroundColor = "rgb(" + col.r + ", " + col.g + ", " + col.b + ") ";
-
 
                 DOM_a.appendChild(DOM_img);
                 DOM_a.appendChild(DOM_span);
@@ -502,53 +497,6 @@
         var appEl = document.createElement('div');
         appEl.className = my_class;
         return appEl;
-    }
-
-    function getAverageRGB(imgEl) {
-
-        var blockSize = 5, // only visit every 5 pixels
-            defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
-            canvas = document.createElement('canvas'),
-            context = canvas.getContext && canvas.getContext('2d'),
-            data, width, height,
-            i = -4,
-            length,
-            rgb = {r:0,g:0,b:0},
-            count = 0;
-
-        if (!context) {
-            return defaultRGB;
-        }
-
-        height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
-        width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
-
-        context.drawImage(imgEl, 0, 0);
-
-        try {
-            data = context.getImageData(0, 0, width, height);
-        } catch(e) {
-            /* security error, img on diff domain */
-            //alert('x');
-            return defaultRGB;
-        }
-
-        length = data.data.length;
-
-        while ( (i += blockSize * 4) < length ) {
-            ++count;
-            rgb.r += data.data[i];
-            rgb.g += data.data[i+1];
-            rgb.b += data.data[i+2];
-        }
-
-        // ~~ used to floor values
-        rgb.r = ~~(rgb.r/count);
-        rgb.g = ~~(rgb.g/count);
-        rgb.b = ~~(rgb.b/count);
-
-        return rgb;
-
     }
 
 

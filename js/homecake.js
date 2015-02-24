@@ -54,7 +54,17 @@ function bottomVisibility(str) {
 }
 
 function topbarVisibility(str) {
-	if (topbar) topbar.style.visibility = str;
+//	if (topbar) topbar.style.visibility = str;
+	if (topbar) {
+		topbar.style.transition = "opacity 0.5s ease-in-out, visibility 1s linear";
+		if (str == "visible") {
+			topbar.style.transition = "opacity 0.5s ease-in-out, visibility 1s linear";
+			topbar.style.opacity = 1;
+		} else {
+			topbar.style.opacity = 0;
+		}
+		topbar.style.visibility = str;
+	}
 }
 
 function useMode (m) {
@@ -287,7 +297,7 @@ function addFav(name) {
 //			case 2: toggle.innerHTML="&nbsp;+&nbsp;"; break;
 			}
 		}
-		toggle.onclick = function () {
+		toggle.ontouchstart = function () {
 			if (mode == 0) {
 				if (bottom) bottom.style.visibility = 'hidden';
 			}
@@ -296,7 +306,12 @@ function addFav(name) {
 			} else {
 				useMode (-1); 
 			}
-			document.body.focus ();
+				document.body.click ();
+
+		}
+		toggle.ontouchend = function() {
+					toggle.blur ();
+			document.body.click ();
 		}
 
 		var appMgr = navigator.mozApps.mgmt;
@@ -324,7 +339,14 @@ function addFav(name) {
 	function renderApp(icon) {
 		if (!icon.name)
 			return "";
-		var str = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="..?.." src="'+icon.icon+'" />';
+		//var str = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="..?.." src="'+icon.icon+'" />';
+		var str = '<div style="margin:7px;display:inline-block;width:'+iconsize+'px;height:'+
+				iconsize+'px;background-image:url(\''+icon.icon+'\');background-size:'+iconsize+'px '+iconsize+'px;"></div>'
+		
+	//	var str = '<div  style="margin:7px;display:inline-block;width:'+iconsize+'px;height:'+
+		//		iconsize+'px;background-image:url(\''+icon.icon+'\');background-size:'+iconsize+'px '+iconsize+'px;">'+
+			//	'<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="..?.." src="'+icon.icon+'" /></div>'
+		
 		var style='';
 		switch (mode) {
 		case 0:
@@ -379,9 +401,27 @@ function addFav(name) {
 		var container = target
 		if (container.src)
 			return iconHash[container.src];
+		if (container.style.backgroundImage) {
+				var app = container.style.backgroundImage;
+		app = app.replace('url("','');
+		app = app.replace ('")','');
+
+			return iconHash[app];
+		}
 		container = container.childNodes[0];
-		if (container && container.src) {
+		if (container) {
+		 if (container.src) {
 			return iconHash[container.src];
+		 }
+			
+	if (container.style.backgroundImage) {
+		var app = container.style.backgroundImage;
+		app = app.replace('url("','');
+		app = app.replace ('")','');
+
+			return iconHash[app];
+		}
+			alert("UNKN");
 		}
 		return null;
 	}

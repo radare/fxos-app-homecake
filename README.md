@@ -9,3 +9,8 @@ Git clone that repo, open it with the WebIDE found in the DeveloperTools of the 
 ## Usage
 
 http://instagram.com/p/wsgCWJFWyB/
+
+## Screenshots
+
+![Grid](/homecake1.png)
+![List](/homecake2.png)

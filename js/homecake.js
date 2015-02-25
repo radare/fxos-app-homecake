@@ -394,7 +394,8 @@
 
     window.addEventListener('click', function(e) {
         var container = e.target;
-        var icon = iconMap.get(container);
+        // var icon = iconMap.get(container);
+        var icon = getIconFor (e.target);
         if (!icon) {
             container = container.parentNode.parentNode;
             icon = iconMap.get(container);
@@ -478,18 +479,24 @@
      */
 
     function show_bottom() {
+        bottom.style.transition = "opacity 0.5s ease-in-out, visibility 1s linear";
+        bottom.style.opacity = 1;
         bottom.style.visibility = 'visible';
     }
 
     function hide_bottom() {
+        bottom.style.transition = "opacity 0.5s ease-in-out, visibility 1s linear";
+        bottom.style.opacity = 0;
         bottom.style.visibility = 'hidden';
     }
 
     function hide_topbar() {
+        topbar.style.transition = "opacity 0.5s ease-in-out, visibility 1s linear";
         topbar.style.visibility = 'hidden';
     }
 
     function show_topbar() {
+        topbar.style.transition = "opacity 0.5s ease-in-out, visibility 1s linear";
         topbar.style.visibility = 'visible';
     }
 

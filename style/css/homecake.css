@@ -2,8 +2,8 @@
 	color: #f0f0f0;
 	text-decoration:none;
 	vertical-align:middle;
+       background-size:scale;
 	font-weight:normal;
-	background-size:scale;
 	background-repeat: no-repeat;
 	font-size:1.2em;
 	padding: 0;
@@ -109,7 +109,6 @@ img {
 
 .wrapper {
   z-index: 1;
-  perspective: 1000;
 }
 
 .tile {

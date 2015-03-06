@@ -21,6 +21,7 @@ var roundicons = true;
 var iconHash = {};
 var writing = false;
 
+	
 var screenRatio = window.innerHeight / window.innerWidth;
 hideOnScroll = (screenRatio<1.5);
 // Flame = 1.68
@@ -256,7 +257,7 @@ function addFav(name) {
 				var maxy = 1024 - h; // h-wh;
 
 				var delta = maxy * (y / wh); //(maxy - y);
-				console.log(maxy, wh,y,h, "=", delta);
+			//	console.log(maxy, wh,y,h, "=", delta);
 				// parallax
 				if (delta != odelta) {
 					document.getElementById('wallpaper').style['background-position'] = "0px -"+delta+"px";
@@ -306,6 +307,7 @@ function addFav(name) {
 //			case 2: toggle.innerHTML="&nbsp;+&nbsp;"; break;
 			}
 		}
+
 		toggle.ontouchstart = function () {
 			if (mode == 0) {
 				if (bottom) bottom.style.visibility = 'hidden';
@@ -315,11 +317,11 @@ function addFav(name) {
 			} else {
 				useMode (-1); 
 			}
-				document.body.click ();
-
+			document.body.click ();
 		}
+
 		toggle.ontouchend = function() {
-					toggle.blur ();
+			toggle.blur ();
 			document.body.click ();
 		}
 
@@ -335,8 +337,8 @@ function addFav(name) {
 			updateAppCache();
 		});
 
-		navigator.mozSettings.addObserver('wallpaper.image', updateWallpaper);
-		updateWallpaper();
+	//	navigator.mozSettings.addObserver('wallpaper.image', updateWallpaper);
+	//	updateWallpaper();
 		updateAppCache();
 	}, true);
 
@@ -378,36 +380,108 @@ function addFav(name) {
 	}
 
 	var opened = [];
-
+	var disableAppStart = false;
 	var longpress = null;
 	var touch_top = 0;
+	var touch_y = 0;
+
 	window.addEventListener('touchstart', function(te) {
 		touch_top = document.body.scrollTop; // screen offset
+		touch_x = te.changedTouches[0].pageX; // screen offset
+		touch_y = te.changedTouches[0].pageY; // screen offset
+
+		disableAppStart = false;
+		/*
+		if (longpress) {
+			clearTimeout (longpress);
+			longpress = null;
+		}
+		*/
+		
 		if (canDelete) {
-			longpress = setTimeout (function(e) {
-				longpress = null;
-				var icon = getIconFor (te.target);
-				//		var icon = iconHash [te.target.src];
-				var appMgr = navigator.mozApps.mgmt;
-				if (icon.app.removable)
-					appMgr.uninstall(icon.app);
-			}, LONG_PRESS_TIMEOUT);
+			var icon = getIconFor (te.target);
+			if (icon.app.removable) {
+				longpress = setTimeout (function(e) {
+
+					clearTimeout (longpress);
+					longpress = null;
+					if (disableAppStart) {
+						disableAppStart = false;
+						return;
+					}
+	disableAppStart = true;
+					
+				
+					var appMgr = navigator.mozApps.mgmt;
+						appMgr.uninstall(icon.app);
+				}, LONG_PRESS_TIMEOUT);
+			}
 		}
 	});
+
 	window.addEventListener('touchmove', function(e) {
+		try {
+			var cur_touch_y = e.changedTouches[0].pageY;
+			if (Math.abs (cur_touch_y-touch_y)>10) {
+				disableAppStart = true;
+				if (longpress) {
+					clearTimeout (longpress);
+					longpress = null;
+					return;
+				}
+			}
+		} catch (err) {
+		}
+		try {
+			var cur_touch_x = e.changedTouches[0].pageX;
+			if (Math.abs (cur_touch_-touch_x)>10) {
+				disableAppStart = true;
+				if (longpress) {
+					clearTimeout (longpress);
+					longpress = null;
+					return;
+				}
+			}
+		} catch (err) {
+	}
 		var cur_touch_top = document.body.scrollTop; // screen offset
-		if (Math.abs (cur_touch_top-touch_top)) {
+		if (Math.abs (cur_touch_top-touch_top)>10) {
+			disableAppStart = true;
 			if (longpress) {
 				clearTimeout (longpress);
 				longpress = null;
 			}
 		}
+		disableAppStart = true;
 	});
 
 	window.addEventListener('touchend', function(e) {
-		if (longpress)
+		
+		if (longpress) {
 			clearTimeout (longpress);
-		longpress = null;
+			longpress = null;
+		}
+		
+			if (disableAppStart) {
+				disableAppStart = false;
+				return;
+			}
+			if (true) {
+			var icon = getIconFor (e.target);
+			if (icon) {
+				document.body.focus ();
+				writing = false;
+				running = true;
+				icon.launch();
+				saveSettings();
+				addFav(icon.name);
+			}
+		} else {
+			longpress = null;
+			disableAppStart = false;
+
+			/* do nothing here just uninstall */
+		}
 	});
 
 	function getIconFor (target) {
@@ -415,10 +489,9 @@ function addFav(name) {
 		if (container.src)
 			return iconHash[container.src];
 		if (container.style.backgroundImage) {
-				var app = container.style.backgroundImage;
-		app = app.replace('url("','');
-		app = app.replace ('")','');
-
+			var app = container.style.backgroundImage;
+			app = app.replace('url("','');
+			app = app.replace ('")','');
 			return iconHash[app];
 		}
 		container = container.childNodes[0];
@@ -438,19 +511,9 @@ function addFav(name) {
 		}
 		return null;
 	}
-	window.addEventListener('click', function(e) {
-		var icon = getIconFor (e.target);
-		if (icon) {
-			document.body.focus ();
-			writing = false;
-			running = true;
-			icon.launch();
-			saveSettings();
-			addFav(icon.name);
-		}
-	});
-      window.addEventListener('hashchange', function() {
-	      /* Home button is pressed */
+
+	window.addEventListener('hashchange', function() {
+		/* Home button is pressed */
 	      if (running) {
 		      running = false;
 		      return;

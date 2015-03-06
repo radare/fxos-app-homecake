@@ -91,6 +91,8 @@ img {
 	border:0px;
 	margin:8px;
 	filter: grayscale(10%);
+	border-radius: 50%;
+	background-position: 50%;
 }
 
 .bottom-tile {

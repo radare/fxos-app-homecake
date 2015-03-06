@@ -17,7 +17,7 @@
 	text-shadow: 0 0 3px #000000;
 }
 .newicon {
-	filter: grayscale(20%);
+	filter: grayscale(40%);
   width: 64px;
 	height:64px;
 }
@@ -26,6 +26,8 @@
 	top:0px;
 	width:100%;
 	z-index:10;
+	background-blend-mode:darken; 
+	 background-color:rgba(190,190,190,0.7); 
 	opacity 0.5s ease-in-out, visibility 1s linear;
 }
 .wallpaper{
@@ -34,7 +36,7 @@
 	width:100%;
 	height:100%;
 	z-index:-10;
-	background-color:black;
+/*	background-color:black; */
 }
 
 .toggle {
@@ -53,8 +55,8 @@
 	width:100%;
 	z-index:10;
 	height:80px;
-background-blend-mode:lighten; 
-	 background-color:rgba(30,30,30,0.8); 
+background-blend-mode:darken; 
+	 background-color:rgba(90,90,90,0.9); 
 	/*	background-color:rgba(150,150,150,0.7); */
 
 }
@@ -82,12 +84,13 @@ body, html {
 	border:32px;
 	overflow-x:hidden;
 	overflow-y:scroll;
+	backface-visibility: hidden;
 }
 
 img {
 	border:0px;
 	margin:8px;
-	filter: grayscale(20%);
+	filter: grayscale(10%);
 }
 
 .bottom-tile {
@@ -100,10 +103,6 @@ img {
 	color: #fff;
 	text-align: left;
 	word-wrap: break-word;
-}
-
-.tile.flipped {
-	background: #5334AC;
 }
 
 .wrapper {

@@ -1,7 +1,7 @@
 (function() {
 
 var parallax = false;
-var hideOnScroll = true;
+var hideOnScroll = false;
 var canDelete = true;
 var favs = [
 	'Camera',
@@ -17,6 +17,7 @@ var bottom = document.getElementById('bottom');
 var topbar = document.getElementById('topbar');
 var input = document.getElementById('input');
 var iconsize = 64;
+var roundicons = true;
 var iconHash = {};
 var writing = false;
 
@@ -145,6 +146,9 @@ function addFav(name) {
 */
 
 	function updateWallpaper() {
+		return;
+		/* this is not necessary because the launcher app takes the background
+		   image if there's no background-image loaded */
 		var req = navigator.mozSettings.createLock().get('wallpaper.image');
 		req.onsuccess = function onsuccess() {
 			var blob = req.result['wallpaper.image'];
@@ -339,9 +343,13 @@ function addFav(name) {
 	function renderApp(icon) {
 		if (!icon.name)
 			return "";
+		var roundicon_str = "";
+		if (roundicons) {
+			roundicon_str = 'border-radius: 50%; background-position: 50%;'
+		}
 		//var str = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="..?.." src="'+icon.icon+'" />';
 		var str = '<div style="margin:7px;display:inline-block;width:'+iconsize+'px;height:'+
-				iconsize+'px;background-image:url(\''+icon.icon+'\');background-size:'+iconsize+'px '+iconsize+'px;"></div>'
+				iconsize+'px;	'+roundicon_str+'background-image:url(\''+icon.icon+'\');background-size:'+iconsize+'px '+iconsize+'px;"></div>'
 		
 	//	var str = '<div  style="margin:7px;display:inline-block;width:'+iconsize+'px;height:'+
 		//		iconsize+'px;background-image:url(\''+icon.icon+'\');background-size:'+iconsize+'px '+iconsize+'px;">'+

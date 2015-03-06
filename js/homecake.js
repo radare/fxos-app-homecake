@@ -97,6 +97,9 @@
 
 
   function updateWallpaper() {
+    return;
+		/* this is not necessary because the launcher app takes the background
+		   image if there's no background-image loaded */
     var req = navigator.mozSettings.createLock().get('wallpaper.image');
     //console.log("→ " + req);
     req.onsuccess = function onsuccess() {
@@ -491,12 +494,14 @@
   }
 
   function hide_topbar() {
-    topbar.style.transition = "opacity 1s ease-in-out, visibility 1s linear";
+    topbar.style.transition = "opacity 0.5s ease-in-out, visibility 1s linear";
+    bottom.style.opacity = 0;
     topbar.style.visibility = 'hidden';
   }
 
   function show_topbar() {
-    topbar.style.transition = "opacity 1s ease-in-out, visibility 1s linear";
+    topbar.style.transition = "opacity 0.5s ease-in-out, visibility 1s linear";
+    bottom.style.opacity = 1;
     topbar.style.visibility = 'visible';
   }
 

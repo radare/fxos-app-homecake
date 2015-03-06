@@ -21,6 +21,11 @@ var roundicons = true;
 var iconHash = {};
 var writing = false;
 
+var screenRatio = window.innerHeight / window.innerWidth;
+hideOnScroll = (screenRatio<1.5);
+// Flame = 1.68
+// Keon = 1.42
+
 function saveSettings() {
 	localStorage.setItem ("favs", favs.join (','));
 	localStorage.setItem ("mode", ""+mode);

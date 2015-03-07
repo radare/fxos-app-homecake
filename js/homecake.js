@@ -44,6 +44,14 @@
       mode = m;
     }
 
+    /**
+    **
+    ** /eliminación modo 0 (big icons) **/
+    if (0 === mode) mode = 1;
+    /**
+    **
+    **/
+
     switch (mode) {
       case 0:
         iconsize = 284;
@@ -452,11 +460,15 @@
   });
 
   function getIconFor(target) {
-    //console.log(target);
     if (target.src)
       return iconHash[target.src];
-    else
-      return (target.childNodes[0].childNodes[0].src) ? iconHash[target.childNodes[0].childNodes[0].src] : null;
+    else{
+      var src = (typeof target.childNodes[0].childNodes[0] != "undefined")?
+        target.childNodes[0].childNodes[0].src
+        :
+        ((typeof target.childNodes[0].src != "undefined")? target.childNodes[0].src : null);
+    }
+    return iconHash[src];
   }
 
 

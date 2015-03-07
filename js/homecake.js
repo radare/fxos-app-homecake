@@ -100,11 +100,9 @@
     var req = navigator.mozSettings.createLock().get('wallpaper.image');
     //console.log("→ " + req);
     req.onsuccess = function onsuccess() {
-      var blob = req.result['wallpaper.image'];
-      var url = URL.createObjectURL(blob);
-      var wallpaper = document.getElementById('wallpaper');
-      wallpaper.style['background-color'] = '#101010';
-      wallpaper.style.backgroundImage = "url(" + url + "), url(" + url + ")";
+      var url = URL.createObjectURL(req.result['wallpaper.image']);
+      document.getElementById('wallpaper').style['background-color'] = '#101010';
+      document.getElementById('wallpaper').style.backgroundImage = "url(" + url + "), url(" + url + ")";
 
     };
   }

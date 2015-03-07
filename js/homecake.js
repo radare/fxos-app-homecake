@@ -97,9 +97,6 @@
 
 
   function updateWallpaper() {
-    return;
-		/* this is not necessary because the launcher app takes the background
-		   image if there's no background-image loaded */
     var req = navigator.mozSettings.createLock().get('wallpaper.image');
     //console.log("→ " + req);
     req.onsuccess = function onsuccess() {

@@ -47,32 +47,32 @@
     switch (mode) {
       case 0:
         iconsize = 284;
-      if (bottom) hide_bottom();
-      toggle.innerHTML = "&nbsp;=&nbsp;";
-      break;
+        if (bottom) hide_bottom();
+        toggle.innerHTML = "&nbsp;=&nbsp;";
+        break;
       case 1:
         //favs for normal mode
         favs = normalfavs;
 
-      iconsize = 64;
-      bottom.style.height = "76px";
-      if (bottom) show_bottom();
-      toggle.innerHTML = "&nbsp;-&nbsp;";
-      break;
+        iconsize = 64;
+        bottom.style.height = "76px";
+        if (bottom) show_bottom();
+        toggle.innerHTML = "&nbsp;-&nbsp;";
+        break;
       case 2:
         //favs in dock for miniicons
         favs = minifavs;
 
-      iconsize = 38;
-      bottom.style.height = "48px";
-      if (bottom) show_bottom();
-      toggle.innerHTML = "&nbsp;▦&nbsp;";
-      break;
+        iconsize = 38;
+        bottom.style.height = "48px";
+        if (bottom) show_bottom();
+        toggle.innerHTML = "&nbsp;▦&nbsp;";
+        break;
       case 3:
         if (bottom) hide_bottom();
-      iconsize = 48;
-      toggle.innerHTML = "&nbsp;+&nbsp;";
-      break;
+        iconsize = 48;
+        toggle.innerHTML = "&nbsp;+&nbsp;";
+        break;
     }
 
     apps.setAttribute("class", (3 == mode) ? "grid_container" : "apps");
@@ -153,12 +153,12 @@
 
             //console.log(icon.app.manifest.developer.name);
             if (icon.app.manifest.developer.name == "The Gaia Team" ||
-                icon.app.manifest.developer.name == "Mozilla")
+              icon.app.manifest.developer.name == "Mozilla")
               renderApp(icon);
           }
           if (2 == mode) {
             if (icon.app.manifest.developer.name != "The Gaia Team" &&
-                icon.app.manifest.developer.name != "Mozilla")
+              icon.app.manifest.developer.name != "Mozilla")
               renderApp(icon);
           }
 
@@ -300,7 +300,7 @@
     var DOM_img = document.createElement("img");
 
     (mode === 0) ?
-      DOM_img.src = icon.big_icon:
+    DOM_img.src = icon.big_icon:
       DOM_img.src = icon.icon;
 
     DOM_img.width = iconsize;
@@ -330,35 +330,36 @@
       case 0:
 
         DOM_img.src = icon.big_icon;
-      DOM_img.width = iconsize;
-      DOM_a.appendChild(DOM_img);
-      break;
+        DOM_img.width = iconsize;
+        DOM_a.appendChild(DOM_img);
+        break;
       case 1:
 
         DOM_img.src = icon.icon;
-      DOM_img.width = iconsize;
+        DOM_img.width = iconsize;
 
-      DOM_span.appendChild(document.createTextNode(icon.name));
-      DOM_span.className = "appname";
+        DOM_span.appendChild(document.createTextNode(icon.name));
+        DOM_span.className = "appname";
+        DOM_span.style.color = '#'+Math.floor(Math.random()*16777215).toString(16); //random hex color
 
-      DOM_a.appendChild(DOM_img);
-      DOM_a.appendChild(DOM_span);
+        DOM_a.appendChild(DOM_img);
+        DOM_a.appendChild(DOM_span);
 
-      break;
+        break;
       case 2:
 
         DOM_img.src = icon.icon;
-      DOM_img.width = iconsize;
+        DOM_img.width = iconsize;
 
 
-      DOM_span.appendChild(document.createTextNode(icon.name));
-      DOM_span.className = "appname-cute";
+        DOM_span.appendChild(document.createTextNode(icon.name));
+        DOM_span.className = "appname-cute";
 
-      DOM_a.appendChild(DOM_img);
-      DOM_a.appendChild(DOM_span);
+        DOM_a.appendChild(DOM_img);
+        DOM_a.appendChild(DOM_span);
 
 
-      break;
+        break;
     }
 
     iconHash[icon.icon] = icon;

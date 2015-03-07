@@ -344,7 +344,8 @@ function addFav(name) {
 
 	function renderFav(icon) {
 		iconHash[icon.icon] = icon;
-		return '<div class="bottom-tile"><img width="'+iconsize+'px" height="'+iconsize+ 'px" src="'+icon.icon+'" /></div>';
+		return '<div class="bottom-tile"><img width="'+iconsize+'px" height="'+
+			iconsize+ 'px" src="'+icon.icon+'" /></div>';
 	}
 
 	function renderApp(icon) {
@@ -356,12 +357,8 @@ function addFav(name) {
 		}
 		//var str = '<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="..?.." src="'+icon.icon+'" />';
 		var str = '<div style="margin:7px;display:inline-block;width:'+iconsize+'px;height:'+
-				iconsize+'px;	'+roundicon_str+'background-image:url(\''+icon.icon+'\');background-size:'+iconsize+'px '+iconsize+'px;"></div>'
-		
-	//	var str = '<div  style="margin:7px;display:inline-block;width:'+iconsize+'px;height:'+
-		//		iconsize+'px;background-image:url(\''+icon.icon+'\');background-size:'+iconsize+'px '+iconsize+'px;">'+
-			//	'<img width="'+iconsize+'px" height="'+iconsize+ 'px" alt="..?.." src="'+icon.icon+'" /></div>'
-		
+				iconsize+'px;	'+roundicon_str+'background-image:url(\''+icon.icon+
+				'\');background-size:'+iconsize+'px '+iconsize+'px;"></div>'
 		var style='';
 		switch (mode) {
 		case 0:
@@ -402,18 +399,17 @@ function addFav(name) {
 			var icon = getIconFor (te.target);
 			if (icon.app.removable) {
 				longpress = setTimeout (function(e) {
-
-					clearTimeout (longpress);
-					longpress = null;
+				/*	clearTimeout (longpress);
+					longpress = null;*/
 					if (disableAppStart) {
 						disableAppStart = false;
-						return;
+					//	return;
 					}
-	disableAppStart = true;
-					
-				
+				disableAppStart = true;
+				var icon = getIconFor (te.target);
 					var appMgr = navigator.mozApps.mgmt;
 						appMgr.uninstall(icon.app);
+					longpress = null;
 				}, LONG_PRESS_TIMEOUT);
 			}
 		}
@@ -434,7 +430,7 @@ function addFav(name) {
 		}
 		try {
 			var cur_touch_x = e.changedTouches[0].pageX;
-			if (Math.abs (cur_touch_-touch_x)>10) {
+			if (Math.abs (cur_touch_x-touch_x)>10) {
 				disableAppStart = true;
 				if (longpress) {
 					clearTimeout (longpress);
@@ -443,7 +439,7 @@ function addFav(name) {
 				}
 			}
 		} catch (err) {
-	}
+		}
 		var cur_touch_top = document.body.scrollTop; // screen offset
 		if (Math.abs (cur_touch_top-touch_top)>10) {
 			disableAppStart = true;

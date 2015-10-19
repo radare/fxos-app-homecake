@@ -121,7 +121,7 @@
 			if (!hasScheme(icon)) {
 				var a = document.createElement('a');
 				a.href = this.app.origin;
-				icon = a.protocol + '//' + a.host + icon;
+				icon = a.protocol + '//' + a.host + "/" + icon;
 			}
 			return icon;
 		},

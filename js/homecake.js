@@ -91,7 +91,7 @@ mode = 1;
 		iconsize = window.innerWidth-16;
 		bottomVisibility ('hidden');
 		toggle.innerHTML = "&nbsp;=&nbsp;";
-		body.style ="";
+		body.style = '';
 		break;
 	case 1:
 		iconsize = 64;
@@ -311,16 +311,18 @@ function addFav(name) {
 			case 0: toggle.innerHTML="&nbsp;=&nbsp;"; break;
 			case 1: toggle.innerHTML="&nbsp;::&nbsp;"; break;
 			case 2: toggle.innerHTML="&nbsp;=&nbsp;"; break;
-//			case 2: toggle.innerHTML="&nbsp;+&nbsp;"; break;
 			}
 		}
 
 		toggle.ontouchstart = function () {
 			if (mode == 0) {
-				if (bottom) bottomVisibility('hidden');
+				bottomVisibility('hidden');
 			}
 			if (writing) { // this.innerHTML.indexOf("-") != -1) {
 				writing = false;
+window.document.getElementById('apps').scrollTop = 0
+input.value = '';
+				updateApps();
 			} else {
 				useMode (-1);
 			}
@@ -518,6 +520,7 @@ function addFav(name) {
 	}
 
 	window.addEventListener('hashchange', function() {
+window.document.getElementById('apps').scrollTop = 0
 		return false;
 		/* Home button is pressed */
 	      if (running) {

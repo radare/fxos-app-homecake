@@ -58,7 +58,7 @@
 
 	Icon.prototype = {
 
-		defaultIcon: '/default_icon.png',
+		defaultIcon: '/img/icon.png',
 
 		get name() {
 			var userLang = document.documentElement.lang;
@@ -93,6 +93,7 @@
 				return null;
 			var choices = this.descriptor.icons;
 			if (!choices) {
+				//alert(this.defaultIcon);
 				return this.defaultIcon;
 			}
 
@@ -122,7 +123,6 @@
 				a.href = this.app.origin;
 				icon = a.protocol + '//' + a.host + icon;
 			}
-
 			return icon;
 		},
 

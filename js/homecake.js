@@ -232,6 +232,7 @@ function addFav(name) {
 		writing = false;
 		input.onkeyup = function(e) {
 			if (e.keyCode==13) {
+				 bottomVisibility ('visible');
 				if (input.value != "") {
 					if (firstResult) {
 						firstResult.launch();
@@ -268,6 +269,7 @@ function addFav(name) {
 				focused = null;
 			else if (document.querySelector)
 				focused = document.querySelector(":focus");
+			/*
 			if (focused != input) {
 				var y = document.body.scrollTop; // screen offset
 				if (y > odelta) {
@@ -286,20 +288,25 @@ function addFav(name) {
 						}
 					}
 				}
+				
 				odelta = y;
 			}
+														 */
 		}, true);
+		/*
 		document.body.onfocus = function () {
 			writing = false;
+			input.onblur();
 		}
+		*/
 		input.onfocus = function () {
 			writing = true;
-			bottom.style['visibility'] = 'hidden';
+		  bottomVisibility ('hidden');
 			toggle.innerHTML="&nbsp;-&nbsp;";
 		}
 		input.onblur = function () {
 			if (mode)
-				bottom.style['visibility'] = 'visible';
+				bottomVisibility('visible');
 			switch (mode) {
 			case 0: toggle.innerHTML="&nbsp;=&nbsp;"; break;
 			case 1: toggle.innerHTML="&nbsp;::&nbsp;"; break;
@@ -310,19 +317,21 @@ function addFav(name) {
 
 		toggle.ontouchstart = function () {
 			if (mode == 0) {
-				if (bottom) bottom.style.visibility = 'hidden';
+				if (bottom) bottomVisibility('hidden');
 			}
 			if (writing) { // this.innerHTML.indexOf("-") != -1) {
 				writing = false;
 			} else {
-				useMode (-1); 
+				useMode (-1);
 			}
+			bottomVisibility ('visible');
 			document.body.click ();
 		}
 
 		toggle.ontouchend = function() {
 			toggle.blur ();
 			document.body.click ();
+			bottomVisibility ('visible');
 		}
 
 		var appMgr = navigator.mozApps.mgmt;
@@ -509,6 +518,7 @@ function addFav(name) {
 	}
 
 	window.addEventListener('hashchange', function() {
+		return false;
 		/* Home button is pressed */
 	      if (running) {
 		      running = false;

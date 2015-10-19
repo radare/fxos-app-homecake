@@ -59,6 +59,7 @@
 	Icon.prototype = {
 
 		defaultIcon: '/img/icon.png',
+		remoteIcon: '/img/remote.png',
 
 		get name() {
 			var userLang = document.documentElement.lang;
@@ -116,12 +117,15 @@
 			}
 
 			var icon = choices[accurateSize];
-
 			// Handle relative URLs
 			if (!hasScheme(icon)) {
 				var a = document.createElement('a');
 				a.href = this.app.origin;
 				icon = a.protocol + '//' + a.host + "/" + icon;
+			}
+			// protect your privacy!!!
+			if (icon.indexOf('http://')!=-1 || icon.indexOf('https://')!=-1) {
+				icon = this.remoteIcon;
 			}
 			return icon;
 		},

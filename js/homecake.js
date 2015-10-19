@@ -23,7 +23,7 @@ var writing = false;
 
 	
 var screenRatio = window.innerHeight / window.innerWidth;
-hideOnScroll = (screenRatio<1.5);
+//hideOnScroll = (screenRatio<1.5);
 // Flame = 1.68
 // Keon = 1.42
 
@@ -213,7 +213,7 @@ function addFav(name) {
 			}
 		}
 		if (!hideOnScroll && input.value == "")
-			str += "<div style='height:80px'></div>";
+			str += "<div style='height:128px'></div>";
 		if (mode == 2) {
 			apps.innerHTML = "<center>"+str+"</center>";
 		} else {
@@ -503,7 +503,7 @@ function addFav(name) {
 
 			return iconHash[app];
 		}
-			alert("UNKN");
+			//alert("UNKN");
 		}
 		return null;
 	}

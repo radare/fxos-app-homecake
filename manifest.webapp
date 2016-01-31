@@ -3,7 +3,7 @@
   "launch_path": "/index.html",
   "version": "1.0",
   "description": "an alternative homescreen with huge thumbs or small screens",
-  "type": "certified",
+  "type": "privileged",
   "role": "homescreen",
   "orientation": ["portrait"],
   "developer": {
@@ -11,13 +11,15 @@
     "url": "https://github.com/radare/fxos-launcher-homecake/"
   },
   "permissions": {
-    "webapps-manage":{},
-    "systemXHR":{},
-    "settings": {
-      "access": "readwrite"
+    "homescreen-webapps-manage":{
+      "description": "This is a homescreen"
     },
-    "open-remote-window": {},
-    "storage": {}
+    "systemXHR":{
+      "description": "Access to remote data"
+    },
+    "storage": {
+      "description": "Save stuff in local"
+    }
   },
   "icons": {
     "128": "default_icon.png"
